@@ -10,10 +10,11 @@
     User类就是users表所对应的实体类
     -->
     <!-- 
-        根据id查询得到一个user对象
+       	 根据id查询得到一个user对象
      -->
     <select id="getTest" parameterType="int" 
         resultType="mycom.test.mybatis.domain.LimsTest">
         select * from lims_test where id=#{id}
     </select>
+    
 </mapper>
