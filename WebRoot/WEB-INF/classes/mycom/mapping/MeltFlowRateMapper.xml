@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mycom.dao.MeltFlowRateMapper" >
+  <resultMap id="BaseResultMap" type="mycom.pojo.MeltFlowRate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sampleId" property="sampleid" jdbcType="INTEGER" />
+    <result column="analyser" property="analyser" jdbcType="INTEGER" />
+    <result column="review2nd" property="review2nd" jdbcType="INTEGER" />
+    <result column="review3rd" property="review3rd" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="condition1" property="condition1" jdbcType="VARCHAR" />
+    <result column="condition1Unit" property="condition1unit" jdbcType="VARCHAR" />
+    <result column="condition1Value" property="condition1value" jdbcType="VARCHAR" />
+    <result column="condition2" property="condition2" jdbcType="VARCHAR" />
+    <result column="condition2Unit" property="condition2unit" jdbcType="VARCHAR" />
+    <result column="condition2Value" property="condition2value" jdbcType="VARCHAR" />
+    <result column="data1" property="data1" jdbcType="VARCHAR" />
+    <result column="data2" property="data2" jdbcType="VARCHAR" />
+    <result column="formula" property="formula" jdbcType="VARCHAR" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, sampleId, analyser, review2nd, review3rd, status, condition1, condition1Unit, 
+    condition1Value, condition2, condition2Unit, condition2Value, data1, data2, formula, 
+    result
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from meltFlowRate
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from meltFlowRate
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="mycom.pojo.MeltFlowRate" >
+    insert into meltFlowRate (id, name, sampleId, 
+      analyser, review2nd, review3rd, 
+      status, condition1, condition1Unit, 
+      condition1Value, condition2, condition2Unit, 
+      condition2Value, data1, data2, 
+      formula, result)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sampleid,jdbcType=INTEGER}, 
+      #{analyser,jdbcType=INTEGER}, #{review2nd,jdbcType=INTEGER}, #{review3rd,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{condition1,jdbcType=VARCHAR}, #{condition1unit,jdbcType=VARCHAR}, 
+      #{condition1value,jdbcType=VARCHAR}, #{condition2,jdbcType=VARCHAR}, #{condition2unit,jdbcType=VARCHAR}, 
+      #{condition2value,jdbcType=VARCHAR}, #{data1,jdbcType=VARCHAR}, #{data2,jdbcType=VARCHAR}, 
+      #{formula,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="mycom.pojo.MeltFlowRate" >
+    insert into meltFlowRate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sampleid != null" >
+        sampleId,
+      </if>
+      <if test="analyser != null" >
+        analyser,
+      </if>
+      <if test="review2nd != null" >
+        review2nd,
+      </if>
+      <if test="review3rd != null" >
+        review3rd,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="condition1 != null" >
+        condition1,
+      </if>
+      <if test="condition1unit != null" >
+        condition1Unit,
+      </if>
+      <if test="condition1value != null" >
+        condition1Value,
+      </if>
+      <if test="condition2 != null" >
+        condition2,
+      </if>
+      <if test="condition2unit != null" >
+        condition2Unit,
+      </if>
+      <if test="condition2value != null" >
+        condition2Value,
+      </if>
+      <if test="data1 != null" >
+        data1,
+      </if>
+      <if test="data2 != null" >
+        data2,
+      </if>
+      <if test="formula != null" >
+        formula,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleid != null" >
+        #{sampleid,jdbcType=INTEGER},
+      </if>
+      <if test="analyser != null" >
+        #{analyser,jdbcType=INTEGER},
+      </if>
+      <if test="review2nd != null" >
+        #{review2nd,jdbcType=INTEGER},
+      </if>
+      <if test="review3rd != null" >
+        #{review3rd,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="condition1 != null" >
+        #{condition1,jdbcType=VARCHAR},
+      </if>
+      <if test="condition1unit != null" >
+        #{condition1unit,jdbcType=VARCHAR},
+      </if>
+      <if test="condition1value != null" >
+        #{condition1value,jdbcType=VARCHAR},
+      </if>
+      <if test="condition2 != null" >
+        #{condition2,jdbcType=VARCHAR},
+      </if>
+      <if test="condition2unit != null" >
+        #{condition2unit,jdbcType=VARCHAR},
+      </if>
+      <if test="condition2value != null" >
+        #{condition2value,jdbcType=VARCHAR},
+      </if>
+      <if test="data1 != null" >
+        #{data1,jdbcType=VARCHAR},
+      </if>
+      <if test="data2 != null" >
+        #{data2,jdbcType=VARCHAR},
+      </if>
+      <if test="formula != null" >
+        #{formula,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="mycom.pojo.MeltFlowRate" >
+    update meltFlowRate
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleid != null" >
+        sampleId = #{sampleid,jdbcType=INTEGER},
+      </if>
+      <if test="analyser != null" >
+        analyser = #{analyser,jdbcType=INTEGER},
+      </if>
+      <if test="review2nd != null" >
+        review2nd = #{review2nd,jdbcType=INTEGER},
+      </if>
+      <if test="review3rd != null" >
+        review3rd = #{review3rd,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="condition1 != null" >
+        condition1 = #{condition1,jdbcType=VARCHAR},
+      </if>
+      <if test="condition1unit != null" >
+        condition1Unit = #{condition1unit,jdbcType=VARCHAR},
+      </if>
+      <if test="condition1value != null" >
+        condition1Value = #{condition1value,jdbcType=VARCHAR},
+      </if>
+      <if test="condition2 != null" >
+        condition2 = #{condition2,jdbcType=VARCHAR},
+      </if>
+      <if test="condition2unit != null" >
+        condition2Unit = #{condition2unit,jdbcType=VARCHAR},
+      </if>
+      <if test="condition2value != null" >
+        condition2Value = #{condition2value,jdbcType=VARCHAR},
+      </if>
+      <if test="data1 != null" >
+        data1 = #{data1,jdbcType=VARCHAR},
+      </if>
+      <if test="data2 != null" >
+        data2 = #{data2,jdbcType=VARCHAR},
+      </if>
+      <if test="formula != null" >
+        formula = #{formula,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mycom.pojo.MeltFlowRate" >
+    update meltFlowRate
+    set name = #{name,jdbcType=VARCHAR},
+      sampleId = #{sampleid,jdbcType=INTEGER},
+      analyser = #{analyser,jdbcType=INTEGER},
+      review2nd = #{review2nd,jdbcType=INTEGER},
+      review3rd = #{review3rd,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      condition1 = #{condition1,jdbcType=VARCHAR},
+      condition1Unit = #{condition1unit,jdbcType=VARCHAR},
+      condition1Value = #{condition1value,jdbcType=VARCHAR},
+      condition2 = #{condition2,jdbcType=VARCHAR},
+      condition2Unit = #{condition2unit,jdbcType=VARCHAR},
+      condition2Value = #{condition2value,jdbcType=VARCHAR},
+      data1 = #{data1,jdbcType=VARCHAR},
+      data2 = #{data2,jdbcType=VARCHAR},
+      formula = #{formula,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

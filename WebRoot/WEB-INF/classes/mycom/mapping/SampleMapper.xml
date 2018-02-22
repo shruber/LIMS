@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mycom.dao.SampleMapper" >
+
+  <resultMap id="BaseResultMap" type="mycom.pojo.Sample" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="departmentId" property="departmentid" jdbcType="INTEGER" />
+    <result column="modelName" property="modelname" jdbcType="VARCHAR" />
+    <result column="samplingTime" property="samplingtime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="creater" property="creater" jdbcType="INTEGER" />
+    <result column="creationTime" property="creationtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, departmentId, modelName, samplingTime, status, creater, creationTime
+  </sql>
+  
+  
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select * from sample
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sample
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sample
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="mycom.pojo.Sample" >
+    insert into sample (id, name, departmentId, 
+      modelName, samplingTime, status, 
+      creater, creationTime)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{departmentid,jdbcType=INTEGER}, 
+      #{modelname,jdbcType=VARCHAR}, #{samplingtime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
+      #{creater,jdbcType=INTEGER}, #{creationtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="mycom.pojo.Sample" >
+    insert into sample
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="departmentid != null" >
+        departmentId,
+      </if>
+      <if test="modelname != null" >
+        modelName,
+      </if>
+      <if test="samplingtime != null" >
+        samplingTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="creationtime != null" >
+        creationTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        #{departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="modelname != null" >
+        #{modelname,jdbcType=VARCHAR},
+      </if>
+      <if test="samplingtime != null" >
+        #{samplingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=INTEGER},
+      </if>
+      <if test="creationtime != null" >
+        #{creationtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="mycom.pojo.Sample" >
+    update sample
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        departmentId = #{departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="modelname != null" >
+        modelName = #{modelname,jdbcType=VARCHAR},
+      </if>
+      <if test="samplingtime != null" >
+        samplingTime = #{samplingtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=INTEGER},
+      </if>
+      <if test="creationtime != null" >
+        creationTime = #{creationtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mycom.pojo.Sample" >
+    update sample
+    set name = #{name,jdbcType=VARCHAR},
+      departmentId = #{departmentid,jdbcType=INTEGER},
+      modelName = #{modelname,jdbcType=VARCHAR},
+      samplingTime = #{samplingtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      creater = #{creater,jdbcType=INTEGER},
+      creationTime = #{creationtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

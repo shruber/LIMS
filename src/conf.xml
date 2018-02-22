@@ -18,6 +18,15 @@
          <!-- 注册limsTestMapper.xml文件， 
          limsTestMapper.xml位于mycom.test.mybatis.mapping这个包下，所以resource写成mycom/test/mybatis/mapping/limsTestMapper.xml-->
     	<mapper resource="mycom/test/mybatis/mapping/limsTestMapper.xml"/>
+    	
+    	<mapper resource="mycom/mapping/SampleMapper.xml"/>
+    	
+
+    	<mapper resource="mycom/mapping/MeltFlowRateMapper.xml"/>
+    	
+    	
+    	
+    	
     </mappers>
     
     

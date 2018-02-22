@@ -56,6 +56,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   	</div>
   	<div id='main-panel'>
+  		<form class='myform' method='get' action='getSampleList.do'>
+  		  spring3mvc:  result=${result.get(0).getName()} <br>
+ 	      <input type='submit' value='提交' />
+ 	    </form>
+
+  		 spring3mvc:  result=${result.get(0).getName()} <br>
+  	
 		<a onclick = "MAIN.clicked()">登录</a>
   	</div>
 
@@ -71,6 +78,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 	MAIN.clicked = function(){
+	
+	
 	
 	toastr.error("error"); 
 	

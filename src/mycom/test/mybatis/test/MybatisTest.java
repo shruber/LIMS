@@ -2,8 +2,13 @@ package mycom.test.mybatis.test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
+
+import mycom.dao.SampleMapper;
+import mycom.pojo.Sample;
 import mycom.test.mybatis.domain.LimsTest;
+
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -31,9 +36,27 @@ public class MybatisTest
          * getUser是select标签的id属性值，通过select标签的id属性值就可以找到要执行的SQL
          */
         String statement = "mycom.test.mybatis.mapping.limsTestMapper.getTest";//映射sql的标识字符串
-        //执行查询返回一个唯一user对象的sql
         LimsTest test = session.selectOne(statement, 1);
         System.out.println(test);
+
+
+        String statement2 = "mycom.dao.SampleMapper.selectByPrimaryKey";//映射sql的标识字符串
+        Sample result = session.selectOne(statement2, 2);
+        System.out.println(result.getName());
+  
+        String statement3 = "mycom.dao.SampleMapper.selectAll";//映射sql的标识字符串
+        List<Sample> result3 = session.selectList(statement3);
+        System.out.println(result3.get(0).getName());
+        
+        System.out.println("-------------------------");
+        //使用动态代理的方式，直接调用方法，无需映射sql的标识字符串
+        SampleMapper sample = session.getMapper(SampleMapper.class);
+        Sample oneSample = sample.selectByPrimaryKey(1);
+        System.out.println(oneSample.getName());
+        
+        List<Sample> sampleList= sample.selectAll();
+        System.out.println(sampleList.get(2).getName());
+        
     }
 	
 	

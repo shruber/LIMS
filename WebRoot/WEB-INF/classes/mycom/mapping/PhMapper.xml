@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mycom.dao.PhMapper" >
+  <resultMap id="BaseResultMap" type="mycom.pojo.Ph" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sampleId" property="sampleid" jdbcType="INTEGER" />
+    <result column="analyser" property="analyser" jdbcType="INTEGER" />
+    <result column="review2nd" property="review2nd" jdbcType="INTEGER" />
+    <result column="review3rd" property="review3rd" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="data1" property="data1" jdbcType="VARCHAR" />
+    <result column="data2" property="data2" jdbcType="VARCHAR" />
+    <result column="formula" property="formula" jdbcType="VARCHAR" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, sampleId, analyser, review2nd, review3rd, status, data1, data2, formula, 
+    result
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ph
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ph
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="mycom.pojo.Ph" >
+    insert into ph (id, name, sampleId, 
+      analyser, review2nd, review3rd, 
+      status, data1, data2, 
+      formula, result)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sampleid,jdbcType=INTEGER}, 
+      #{analyser,jdbcType=INTEGER}, #{review2nd,jdbcType=INTEGER}, #{review3rd,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{data1,jdbcType=VARCHAR}, #{data2,jdbcType=VARCHAR}, 
+      #{formula,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="mycom.pojo.Ph" >
+    insert into ph
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sampleid != null" >
+        sampleId,
+      </if>
+      <if test="analyser != null" >
+        analyser,
+      </if>
+      <if test="review2nd != null" >
+        review2nd,
+      </if>
+      <if test="review3rd != null" >
+        review3rd,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="data1 != null" >
+        data1,
+      </if>
+      <if test="data2 != null" >
+        data2,
+      </if>
+      <if test="formula != null" >
+        formula,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleid != null" >
+        #{sampleid,jdbcType=INTEGER},
+      </if>
+      <if test="analyser != null" >
+        #{analyser,jdbcType=INTEGER},
+      </if>
+      <if test="review2nd != null" >
+        #{review2nd,jdbcType=INTEGER},
+      </if>
+      <if test="review3rd != null" >
+        #{review3rd,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="data1 != null" >
+        #{data1,jdbcType=VARCHAR},
+      </if>
+      <if test="data2 != null" >
+        #{data2,jdbcType=VARCHAR},
+      </if>
+      <if test="formula != null" >
+        #{formula,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="mycom.pojo.Ph" >
+    update ph
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleid != null" >
+        sampleId = #{sampleid,jdbcType=INTEGER},
+      </if>
+      <if test="analyser != null" >
+        analyser = #{analyser,jdbcType=INTEGER},
+      </if>
+      <if test="review2nd != null" >
+        review2nd = #{review2nd,jdbcType=INTEGER},
+      </if>
+      <if test="review3rd != null" >
+        review3rd = #{review3rd,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="data1 != null" >
+        data1 = #{data1,jdbcType=VARCHAR},
+      </if>
+      <if test="data2 != null" >
+        data2 = #{data2,jdbcType=VARCHAR},
+      </if>
+      <if test="formula != null" >
+        formula = #{formula,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mycom.pojo.Ph" >
+    update ph
+    set name = #{name,jdbcType=VARCHAR},
+      sampleId = #{sampleid,jdbcType=INTEGER},
+      analyser = #{analyser,jdbcType=INTEGER},
+      review2nd = #{review2nd,jdbcType=INTEGER},
+      review3rd = #{review3rd,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      data1 = #{data1,jdbcType=VARCHAR},
+      data2 = #{data2,jdbcType=VARCHAR},
+      formula = #{formula,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

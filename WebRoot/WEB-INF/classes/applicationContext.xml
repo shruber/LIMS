@@ -12,6 +12,12 @@
 	<!-- 使AspectJ注解起作用：自动为匹配的类生成代理对象 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
+
+
+
+
+
+<!-- ===================== 测试内容===================================== -->
 	<bean id="hello" class="mycom.test.HelloWorld">
 		<property name="number" value="12345" />
 		<property name="title" value="yes,spring" />
@@ -19,6 +25,6 @@
 	
 	<bean id="calculator" class="mycom.test.aop.ArithmeticCalculatorImpl">
 	</bean>
-	
+<!-- ===================== 测试内容===================================== -->
 
 </beans>
