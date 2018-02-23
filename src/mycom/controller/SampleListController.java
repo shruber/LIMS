@@ -1,12 +1,11 @@
 package mycom.controller;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import mycom.dao.SampleMapper;
 import mycom.pojo.Sample;
-import mycom.test.mybatis.domain.LimsTest;
+
 import mycom.util.dbutil;
 
 import org.apache.ibatis.session.SqlSession;

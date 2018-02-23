@@ -10,6 +10,15 @@
   <sql id="Base_Column_List" >
     id, name, departmentId, creater
   </sql>
+  
+    <select id="selectByDepartmentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where departmentId = #{departmentId,jdbcType=INTEGER}
+  </select>
+  
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

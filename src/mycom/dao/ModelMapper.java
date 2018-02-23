@@ -1,5 +1,7 @@
 package mycom.dao;
 
+import java.util.List;
+
 import mycom.pojo.Model;
 
 public interface ModelMapper {
@@ -14,4 +16,6 @@ public interface ModelMapper {
     int updateByPrimaryKeySelective(Model record);
 
     int updateByPrimaryKey(Model record);
+
+	List<Model> selectByProductId(int productId);
 }
