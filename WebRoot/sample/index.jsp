@@ -54,8 +54,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			padding: 2px;
 			float:left;
 		}
+		#model
+		{
+			width:20%;
+			height:100%;
+			margin:auto auto auto auto;
+			border:1px solid #CCC;
+			border-radius:1px;
+			padding: 2px;
+			float:left;
+		}
 		
-
+		#analysisItems
+		{
+			width:20%;
+			height:100%;
+			margin:auto auto auto auto;
+			border:1px solid #CCC;
+			border-radius:1px;
+			padding: 2px;
+			float:left;
+		}
 	</style>
 	
   </head>
@@ -102,12 +121,123 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				</tbody>
   			</table>
   		</div>
-
-
-
+  		
+		<div id='analysisItems'>
+  			<table class='table'>
+  				<thead>
+  					<tr>
+  					 	<th>是否选择</th>
+  						<th>方法编号</th>
+  						<th>方法名称</th>
+ 
+  					</tr>
+  				</thead>
+  				<tbody>  				
+  				</tbody>
+  			</table>
+  		</div>
   	</div>
+
+
+  	<jsp:include page="dlg_details.jsp"></jsp:include>
+
   </body>
 <script>
+
+///////////////////analysisItems 分析项目////////////////
+	var ANALY = {};
+	ANALY.panel = $("#analysisItems");
+	
+  	//显示方法
+  	ANALY.load = function(modelId)
+  	{
+  		var data = {};
+  		data.modelId = modelId;
+		var req = JSON.stringify(data);
+		if(data.modelId != null)
+		{
+		  	var url = 'getModelAnalysisItemsList.do';
+  			//此处要进行二次查询，ModelAnalysisItems中查询出需要的AnalysisItemsId，然后再从AnalysisItems中获得记录；
+
+			$.post(url, req, function (ans, status) {
+  		  		var resp = $.parseJSON(ans);	
+  				if(resp.errorCode != 0){ toastr.error("错误：" + resp.reason); return;}
+				//AnalysisItemsId的集合；
+				var res = resp.result;
+				//遍历数组res，取出其中的analysisitemid；
+				var analysisItemId = [];
+				for(j = 0,len=res.length; j < len; j++) 
+				{
+					analysisItemId[j]=res[j].analysisitemid;
+				}
+			
+				//二次查询：从AnalysisItems中获取数据，参数是id集合
+				var data2 = {};
+				data2.analysisItemId = analysisItemId;
+				req = JSON.stringify(data2);
+				//写到此处了，此处的后台还没写
+				var url = 'getAnalysisItemsById.do';
+				$.post(url, req, function (ans, status) {
+  			  		var resp = $.parseJSON(ans);	
+  					if(resp.errorCode != 0){ toastr.error("错误：" + resp.reason); return;}
+
+  						 ANALY.show_item_list(resp.result);
+ 
+  					 });
+
+			
+
+  		 });
+
+
+		}
+		else
+		{
+			var url = 'getAnalysisItemsList.do';
+			$.post(url, req, function (ans, status) {
+  		  	var resp = $.parseJSON(ans);	
+  			if(resp.errorCode != 0){ toastr.error("错误：" + resp.reason); return;}
+
+  			 ANALY.show_item_list(resp.result);
+ 
+  		 });
+		}
+
+
+  	}
+
+  	//列出给定的方法
+  	ANALY.show_item_list = function(items)
+  	{
+  		var target = $("#analysisItems tbody");
+  		target.html("");
+  		
+  		for(var i=0; i<items.length; i++)
+  		{
+  			var it = items[i];
+  			var str = "<tr class='item' id1='##1' onclick='ANALY.clicked(this)'>"
+  				+ "<td> <input type='checkbox' name='checkbox' value='##2' /> </td>"
+  				+ "<td>" + it.id + "</td>"
+  				+ "<td>" + it.name + "</td>"
+  				+ "</tr>";
+
+  			str = str.replace(/##1/g,it.id).replace(/##2/g, it.id);			
+  			target.append(str);
+  		}
+  	}
+  	
+  	ANALY.clicked = function(dom)
+  	{
+  		toastr.success("点击方法 成功");
+  	}
+  	
+  	
+  	
+  	ANALY.panel.ready(function(){
+		
+	});
+
+
 
 //////////////////model 牌号///////////////////////////
 	var MODEL = {};
@@ -119,7 +249,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		var data = {};
   		data.productId = productId;
 		var req = JSON.stringify(data); 
-  		url = 'getProductModelList.do';
+  		var url = 'getProductModelList.do';
   		
   		$.post(url, req, function (ans, status) {
   		  	var resp = $.parseJSON(ans);	
@@ -139,7 +269,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		for(var i=0; i<items.length; i++)
   		{
   			var it = items[i];
-  			var str = "<tr class='item' id1='##1' onclick='PROD.clicked(this)'>"
+  			var str = "<tr class='item' id1='##1' onclick='MODEL.clicked(this)'>"
   				+ "<td>" + it.id + "</td>"
   				+ "<td>" + it.name + "</td>"
   				+ "</tr>";
@@ -152,6 +282,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	MODEL.clicked = function(dom)
   	{
   		toastr.success("点击牌号 成功");
+  		var modelId = $(dom).attr("id1");
+  		DLG_DETAILS.show(modelId);
+
   	}
   	
   	
@@ -160,10 +293,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		//DEPA.load();
 	});
-
-
-
-///////////////////department//////////////////////////
 
 
 
@@ -210,14 +339,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	
   	PROD.clicked = function(dom)
   	{
-  		toastr.success("点击 成功");
+  		var productId = $(dom).attr("id1");
+  		MODEL.load(productId);
   	}
   	
   	
   	
   	PROD.panel.ready(function(){
-		
-		//DEPA.load();
+
 	});
 
 
@@ -266,6 +395,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	DEPA.clicked = function(dom)
   	{
   		toastr.success("点击 成功");
+
   		var departmentId = $(dom).attr("id1");
   		PROD.load(departmentId);
   	}

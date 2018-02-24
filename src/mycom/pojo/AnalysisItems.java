@@ -1,5 +1,6 @@
 package mycom.pojo;
 
+
 public class AnalysisItems {
     private Integer id;
 
@@ -50,4 +51,6 @@ public class AnalysisItems {
     public void setCreater(Integer creater) {
         this.creater = creater;
     }
+
+
 }

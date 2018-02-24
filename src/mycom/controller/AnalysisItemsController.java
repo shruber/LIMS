@@ -1,11 +1,9 @@
 package mycom.controller;
 
-import java.net.URLDecoder;
 import java.util.List;
 
-import mycom.dao.ModelMapper;
-
-import mycom.pojo.Model;
+import mycom.dao.AnalysisItemsMapper;
+import mycom.pojo.AnalysisItems;
 import mycom.util.dbutil;
 
 import org.apache.ibatis.session.SqlSession;
@@ -16,28 +14,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class ModelController
+public class AnalysisItemsController
 {
 	@ResponseBody
-	@RequestMapping(value = "/getProductModelList", produces = "text/plain; charset=utf-8")
-	public String getProductModelList(@RequestBody String str)
+	@RequestMapping(value = "/getAnalysisItemsList", produces = "text/plain; charset=utf-8")
+	public String getAnalysisItemsList(@RequestBody String str)
 			throws Exception
 	{
 		int errorCode = 0;
 		String reason = "";
 
-		JSONObject req = new JSONObject(URLDecoder.decode(str, "UTF-8"));
+		//JSONObject req = new JSONObject(URLDecoder.decode(str, "UTF-8"));
 		JSONObject resp = new JSONObject();
-		int productId = req.getInt("productId");
-		SqlSession session = dbutil.getMybatisSqlSession();
-		ModelMapper obj = session.getMapper(ModelMapper.class);
 
-		List<Model> result = obj.selectByProductId(productId);
+		SqlSession session = dbutil.getMybatisSqlSession();
+		AnalysisItemsMapper obj = session.getMapper(AnalysisItemsMapper.class);
+
+		List<AnalysisItems> result = obj.selectAll();
 
 		resp.put("errorCode", errorCode);
 		resp.put("reason", reason);
 		resp.put("result", result);
 		return resp.toString();
 	}
-
 }

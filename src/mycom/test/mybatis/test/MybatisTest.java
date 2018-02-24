@@ -5,7 +5,11 @@ import java.io.InputStream;
 import java.util.List;
 
 
+import mycom.dao.AnalysisItemsMapper;
+import mycom.dao.ModelAnalysisItemsMapper;
 import mycom.dao.SampleMapper;
+import mycom.pojo.AnalysisItems;
+import mycom.pojo.ModelAnalysisItems;
 import mycom.pojo.Sample;
 import mycom.test.mybatis.domain.LimsTest;
 
@@ -57,8 +61,16 @@ public class MybatisTest
         List<Sample> sampleList= sample.selectAll();
         System.out.println(sampleList.get(2).getName());
         
-    }
-	
-	
+        
+		AnalysisItemsMapper obj = session.getMapper(AnalysisItemsMapper.class);
 
+		List<AnalysisItems> result2 = obj.selectAll();
+		 System.out.println(result2.get(0).getName());
+        
+		 
+		 ModelAnalysisItemsMapper obj2 = session.getMapper(ModelAnalysisItemsMapper.class);
+
+		 List<ModelAnalysisItems> result4 = obj2.selectByModelId(1);
+		 System.out.println(result4.get(1).getAnalysisitemid());
+    }
 }

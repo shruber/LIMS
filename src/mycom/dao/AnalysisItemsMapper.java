@@ -1,5 +1,7 @@
 package mycom.dao;
 
+import java.util.List;
+
 import mycom.pojo.AnalysisItems;
 
 public interface AnalysisItemsMapper {
@@ -14,4 +16,6 @@ public interface AnalysisItemsMapper {
     int updateByPrimaryKeySelective(AnalysisItems record);
 
     int updateByPrimaryKey(AnalysisItems record);
+
+	List<AnalysisItems> selectAll();
 }

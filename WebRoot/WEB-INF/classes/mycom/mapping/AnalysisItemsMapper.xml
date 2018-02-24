@@ -11,6 +11,12 @@
   <sql id="Base_Column_List" >
     id, name, tableName, formula, creater
   </sql>
+  
+  
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select * from analysisItems
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

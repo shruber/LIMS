@@ -10,6 +10,14 @@
   <sql id="Base_Column_List" >
     id, modelId, analysisItemId, creater
   </sql>
+  
+  <select id="selectByModelId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from modelAnalysisItems
+    where modelId = #{modelId,jdbcType=INTEGER}
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
