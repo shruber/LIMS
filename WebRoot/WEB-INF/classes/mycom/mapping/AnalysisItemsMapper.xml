@@ -12,6 +12,17 @@
     id, name, tableName, formula, creater
   </sql>
   
+  <select id="selectByIds" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from analysisItems
+             <where>
+                 id in
+                 <foreach collection="array" index="index" item="item" open="("  separator="," close=")" >
+                         #{item}
+                 </foreach>
+             </where>
+  </select>
   
   <select id="selectAll" resultMap="BaseResultMap" >
     select * from analysisItems

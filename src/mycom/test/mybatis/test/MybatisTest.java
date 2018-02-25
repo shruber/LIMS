@@ -12,6 +12,7 @@ import mycom.pojo.AnalysisItems;
 import mycom.pojo.ModelAnalysisItems;
 import mycom.pojo.Sample;
 import mycom.test.mybatis.domain.LimsTest;
+import mycom.util.dbutil;
 
 
 import org.apache.ibatis.session.SqlSession;
@@ -53,7 +54,7 @@ public class MybatisTest
         System.out.println(result3.get(0).getName());
         
         System.out.println("-------------------------");
-        //使用动态代理的方式，直接调用方法，无需映射sql的标识字符串
+/*        //使用动态代理的方式，直接调用方法，无需映射sql的标识字符串
         SampleMapper sample = session.getMapper(SampleMapper.class);
         Sample oneSample = sample.selectByPrimaryKey(1);
         System.out.println(oneSample.getName());
@@ -71,6 +72,13 @@ public class MybatisTest
 		 ModelAnalysisItemsMapper obj2 = session.getMapper(ModelAnalysisItemsMapper.class);
 
 		 List<ModelAnalysisItems> result4 = obj2.selectByModelId(1);
-		 System.out.println(result4.get(1).getAnalysisitemid());
+		 System.out.println(result4.get(1).getAnalysisitemid());*/
+
+		int[] ids = {1,2};
+		AnalysisItemsMapper obj3 = session.getMapper(AnalysisItemsMapper.class);
+		List<AnalysisItems> result5 = obj3.selectByIds(ids);
+		System.out.println(result5.get(0).getName());
+
+		 
     }
 }

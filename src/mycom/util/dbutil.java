@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class dbutil
 {
+	// TODO:此处配置文件的加载应该只加载一次，而不是每次都加载，sqlSession工程的构建应该只构建一次，看看是否可以使用单例；
 	public static SqlSession getMybatisSqlSession()
 	{
         //mybatis的配置文件

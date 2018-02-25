@@ -18,4 +18,6 @@ public interface AnalysisItemsMapper {
     int updateByPrimaryKey(AnalysisItems record);
 
 	List<AnalysisItems> selectAll();
+
+	List<AnalysisItems> selectByIds(int[] ids);
 }

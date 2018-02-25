@@ -40,12 +40,24 @@
 <script>
 	var DLG_DETAILS = 
 	{
-		dlg: $("#dlg-details"),
+		dlg : $("#dlg-details"),
 		
-		modelId:{},
-		show : function(modelId)
+		modelId : {},
+		departmentId : {},
+		show : function(mode,id)
 		{
-			this.modelId = modelId;
+			if(mode = 0)
+			{
+				this.modelId = id;
+			}else
+			{
+				if(mode = 1)
+				{
+					this.modelId = null;
+					this.departmentId = id;
+				}
+			}
+			
 			$(".name",this.dlg).val("");
 		    $(".creater",this.dlg).val("");
 			$(".samplingTime",this.dlg).val("");
@@ -63,12 +75,12 @@
 		
 		ok : function()
 		{
-
+			$("#analysisItems").css('display','block');
 			this.data.name = $(".name",this.dlg).val();
 			this.data.creater = $(".creater",this.dlg).val();
 			this.data.samplingTime = $(".samplingTime",this.dlg).val();
 			DLG_DETAILS.hide();
-			console.trace(this.modelId);
+			//console.trace(this.modelId);
 			
 			ANALY.load(this.modelId);
 		},

@@ -46,6 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		#product
 		{
+			display:none;
 			width:20%;
 			height:100%;
 			margin:auto auto auto auto;
@@ -56,6 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		#model
 		{
+			display:none;
 			width:20%;
 			height:100%;
 			margin:auto auto auto auto;
@@ -67,6 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		#analysisItems
 		{
+			display:none;
 			width:20%;
 			height:100%;
 			margin:auto auto auto auto;
@@ -75,6 +78,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			padding: 2px;
 			float:left;
 		}
+		
+		selscted
+		{
+			background-color:yellow;
+		
+		}
+		
+		
 	</style>
 	
   </head>
@@ -140,14 +151,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
   	<jsp:include page="dlg_details.jsp"></jsp:include>
-
+	<jsp:include page="dlg_isproduct.jsp"></jsp:include>
   </body>
 <script>
 
 ///////////////////analysisItems 分析项目////////////////
 	var ANALY = {};
 	ANALY.panel = $("#analysisItems");
+			
 	
+	//此处，data.modelId = null时，还需测试；
   	//显示方法
   	ANALY.load = function(modelId)
   	{
@@ -175,7 +188,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var data2 = {};
 				data2.analysisItemId = analysisItemId;
 				req = JSON.stringify(data2);
-				//写到此处了，此处的后台还没写
 				var url = 'getAnalysisItemsById.do';
 				$.post(url, req, function (ans, status) {
   			  		var resp = $.parseJSON(ans);	
@@ -187,7 +199,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 			
 
-  		 });
+  			 });
 
 
 		}
@@ -281,10 +293,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	
   	MODEL.clicked = function(dom)
   	{
-  		toastr.success("点击牌号 成功");
+  		//toastr.success("点击牌号 成功");
+  		$("#product").css('display','block');
   		var modelId = $(dom).attr("id1");
-  		DLG_DETAILS.show(modelId);
-
+  		DLG_DETAILS.show(0, modelId);
   	}
   	
   	
@@ -339,6 +351,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	
   	PROD.clicked = function(dom)
   	{
+  		$("#model").css('display','block');
   		var productId = $(dom).attr("id1");
   		MODEL.load(productId);
   	}
@@ -394,10 +407,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	
   	DEPA.clicked = function(dom)
   	{
-  		toastr.success("点击 成功");
-
+  		//toastr.success("点击部门  成功");
+		//切换为选择状态
+		$(dom).click(function(){
+       		$(dom).toggleClass(' ','selected');
+         });
+		
+	
   		var departmentId = $(dom).attr("id1");
-  		PROD.load(departmentId);
+
+  		DLG_ISPRODUCT.show(departmentId);
+  		//PROD.load(departmentId);
   	}
   	
   	
