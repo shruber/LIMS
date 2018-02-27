@@ -33,7 +33,8 @@ public class ModelController
 		ModelMapper obj = session.getMapper(ModelMapper.class);
 
 		List<Model> result = obj.selectByProductId(productId);
-
+		
+		session.close();
 		resp.put("errorCode", errorCode);
 		resp.put("reason", reason);
 		resp.put("result", result);

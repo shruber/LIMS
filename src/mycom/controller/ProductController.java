@@ -36,7 +36,8 @@ public class ProductController
 
 		List<Product> result = obj.selectByDepartmentId(departmentId);
 		// System.out.println(result.get(0).getName());
-
+		
+		session.close();
 		resp.put("errorCode", errorCode);
 		resp.put("reason", reason);
 		resp.put("result", result);

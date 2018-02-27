@@ -2,6 +2,7 @@ package mycom.test.mybatis.test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -72,13 +73,38 @@ public class MybatisTest
 		 ModelAnalysisItemsMapper obj2 = session.getMapper(ModelAnalysisItemsMapper.class);
 
 		 List<ModelAnalysisItems> result4 = obj2.selectByModelId(1);
-		 System.out.println(result4.get(1).getAnalysisitemid());*/
+		 System.out.println(result4.get(1).getAnalysisitemid());
 
 		int[] ids = {1,2};
 		AnalysisItemsMapper obj3 = session.getMapper(AnalysisItemsMapper.class);
 		List<AnalysisItems> result5 = obj3.selectByIds(ids);
-		System.out.println(result5.get(0).getName());
+		System.out.println(result5.get(0).getName());*/
+		
+        SampleMapper sample = session.getMapper(SampleMapper.class);
+		
+		Sample sampleObj = new Sample();
+		sampleObj.setCreater(11);
+		sampleObj.setDepartmentid(1);
+		sampleObj.setModelname("qqw");
+		sampleObj.setName("qqq");
+		
+		sampleObj.setStatus((byte) 1);		
+		
+		//Date
+		Timestamp samplingTime = new Timestamp(System.currentTimeMillis());  
+		Timestamp creationTime = new Timestamp(System.currentTimeMillis());
+	 
+	    sampleObj.setSamplingtime(samplingTime);
+		sampleObj.setCreationtime(creationTime );
 
-		 
+		Object res = sample.insertSelective(sampleObj);
+		System.out.println(res);
+		
+        List<Sample> res2 = sample.selectAll();
+        System.out.println(res2.get(2).getName());
+
+       
+        session.commit();
+        session.close();
     }
 }

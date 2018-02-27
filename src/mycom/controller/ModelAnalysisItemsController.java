@@ -33,7 +33,8 @@ public class ModelAnalysisItemsController
 		ModelAnalysisItemsMapper obj = session.getMapper(ModelAnalysisItemsMapper.class);
 
 		List<ModelAnalysisItems> result = obj.selectByModelId(modelId);
-
+		
+		session.close();
 		resp.put("errorCode", errorCode);
 		resp.put("reason", reason);
 		resp.put("result", result);

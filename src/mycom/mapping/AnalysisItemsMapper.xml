@@ -8,9 +8,26 @@
     <result column="formula" property="formula" jdbcType="VARCHAR" />
     <result column="creater" property="creater" jdbcType="INTEGER" />
   </resultMap>
+  
+   <resultMap id="id_tableName_Map" type="java.util.Map">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tableName" property="tablename" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, name, tableName, formula, creater
   </sql>
+  
+  <select id="selectTableNameById" resultMap="BaseResultMap" >
+    select * from analysisItems t
+    	<where>
+        	id in
+            <foreach collection="list" index="index" item="item" open="("  separator="," close=")" >
+                   #{item}
+            </foreach>
+        </where>
+  </select>
+  
   
   <select id="selectByIds" resultMap="BaseResultMap" >
     select 

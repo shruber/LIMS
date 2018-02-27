@@ -2,6 +2,7 @@ package mycom.controller;
 
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.Map;
 
 import mycom.dao.AnalysisItemsMapper;
 import mycom.pojo.AnalysisItems;
@@ -21,6 +22,35 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class AnalysisItemsController
 {
+	
+	@ResponseBody
+	@RequestMapping(value = "/getAnalysisItemsTableName", produces = "text/plain; charset=utf-8")
+	public String getAnalysisItemsTableName(@RequestBody String str)
+			throws Exception
+	{
+		int errorCode = 0;
+		String reason = "";
+
+		JSONObject req = new JSONObject(URLDecoder.decode(str, "UTF-8"));
+		JSONObject resp = new JSONObject();
+		
+		JSONArray analysisItemsId = (JSONArray) req.get("analysisItemsId");
+		List idList = analysisItemsId.toList();
+		
+		
+		SqlSession session = dbutil.getMybatisSqlSession();
+		AnalysisItemsMapper obj = session.getMapper(AnalysisItemsMapper.class);
+
+		List result = obj.selectTableNameById(idList);
+		
+		session.close();
+		resp.put("errorCode", errorCode);
+		resp.put("reason", reason);
+		resp.put("result", result);
+		return resp.toString();
+	}
+	
+	
 	@ResponseBody
 	@RequestMapping(value = "/getAnalysisItemsList", produces = "text/plain; charset=utf-8")
 	public String getAnalysisItemsList(@RequestBody String str)
@@ -36,7 +66,8 @@ public class AnalysisItemsController
 		AnalysisItemsMapper obj = session.getMapper(AnalysisItemsMapper.class);
 
 		List<AnalysisItems> result = obj.selectAll();
-
+		
+		session.close();
 		resp.put("errorCode", errorCode);
 		resp.put("reason", reason);
 		resp.put("result", result);
@@ -83,7 +114,8 @@ public class AnalysisItemsController
 		SqlSession session = dbutil.getMybatisSqlSession();
 		AnalysisItemsMapper obj = session.getMapper(AnalysisItemsMapper.class);
 		List<AnalysisItems> result = obj.selectByIds(ids);
-
+	
+		session.close();
 		resp.put("errorCode", errorCode);
 		resp.put("reason", reason);
 		resp.put("result", result);

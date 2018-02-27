@@ -76,13 +76,16 @@
 		ok : function()
 		{
 			$("#analysisItems").css('display','block');
-			this.data.name = $(".name",this.dlg).val();
-			this.data.creater = $(".creater",this.dlg).val();
-			this.data.samplingTime = $(".samplingTime",this.dlg).val();
+			SAMPLE.name = $(".name",this.dlg).val();
+			SAMPLE.creater = $(".creater",this.dlg).val();
+			SAMPLE.samplingTime = $(".samplingTime",this.dlg).val();
 			DLG_DETAILS.hide();
 			//console.trace(this.modelId);
 			
 			ANALY.load(this.modelId);
+			
+			$("#sample").css('display','block');
+
 		},
 		end_of_class: null
 	};

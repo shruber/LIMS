@@ -37,7 +37,7 @@ public class ApartmentListController
           List<Department> result = depart.selectAll();
           System.out.println(result.get(1).getName());
           
-
+          session.close();
 		  resp.put("errorCode", errorCode );
 		  resp.put("reason", reason);
           resp.put("result", result);

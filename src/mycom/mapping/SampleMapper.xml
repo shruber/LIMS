@@ -38,6 +38,7 @@
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{departmentid,jdbcType=INTEGER}, 
       #{modelname,jdbcType=VARCHAR}, #{samplingtime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, 
       #{creater,jdbcType=INTEGER}, #{creationtime,jdbcType=TIMESTAMP})
+      
   </insert>
   <insert id="insertSelective" parameterType="mycom.pojo.Sample" >
     insert into sample
@@ -94,6 +95,7 @@
       </if>
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="mycom.pojo.Sample" >
     update sample
     <set >

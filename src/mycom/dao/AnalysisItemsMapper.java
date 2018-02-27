@@ -1,6 +1,7 @@
 package mycom.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import mycom.pojo.AnalysisItems;
 
@@ -20,4 +21,8 @@ public interface AnalysisItemsMapper {
 	List<AnalysisItems> selectAll();
 
 	List<AnalysisItems> selectByIds(int[] ids);
+
+	List selectTableNameById(List idList);
+
+
 }
