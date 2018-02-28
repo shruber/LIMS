@@ -21,12 +21,15 @@
     	
     	<mapper resource="mycom/mapping/AnalysisItemsMapper.xml"/>
     	<mapper resource="mycom/mapping/DepartmentMapper.xml"/>
+    	<mapper resource="mycom/mapping/DefineAnalysisItemsMapper.xml"/>
     	<mapper resource="mycom/mapping/MeltFlowRateMapper.xml"/>
+    	<mapper resource="mycom/mapping/MfrMapper.xml"/>
     	<mapper resource="mycom/mapping/ModelAnalysisItemsMapper.xml"/>
     	<mapper resource="mycom/mapping/ModelMapper.xml"/>
     	<mapper resource="mycom/mapping/PhMapper.xml"/>
     	<mapper resource="mycom/mapping/ProductMapper.xml"/>
         <mapper resource="mycom/mapping/SampleMapper.xml"/>
+        <mapper resource="mycom/mapping/SampleAnalysisItemsMapper.xml"/>
     	<mapper resource="mycom/mapping/StaffMapper.xml"/>
    	 	<mapper resource="mycom/mapping/CommonMapper.xml"/>
     	

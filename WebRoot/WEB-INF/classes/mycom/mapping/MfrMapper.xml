@@ -1,49 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="mycom.dao.PhMapper" >
-  <resultMap id="BaseResultMap" type="mycom.pojo.Ph" >
+<mapper namespace="mycom.dao.MfrMapper" >
+  <resultMap id="BaseResultMap" type="mycom.pojo.Mfr" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="sampleId" property="sampleid" jdbcType="INTEGER" />
     <result column="analyser" property="analyser" jdbcType="INTEGER" />
     <result column="review2nd" property="review2nd" jdbcType="INTEGER" />
-    <result column="review3rd" property="review3rd" jdbcType="INTEGER" />
+    <result column="review3nd" property="review3nd" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="condition1Value" property="condition1value" jdbcType="VARCHAR" />
+    <result column="condition2Value" property="condition2value" jdbcType="VARCHAR" />
     <result column="data1" property="data1" jdbcType="VARCHAR" />
     <result column="data2" property="data2" jdbcType="VARCHAR" />
-    <result column="formula" property="formula" jdbcType="VARCHAR" />
     <result column="result" property="result" jdbcType="VARCHAR" />
     <result column="hold1" property="hold1" jdbcType="VARCHAR" />
     <result column="hold2" property="hold2" jdbcType="VARCHAR" />
     <result column="hold3" property="hold3" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, sampleId, analyser, review2nd, review3rd, status, data1, data2, formula, result, 
-    hold1, hold2, hold3
+    id, sampleId, analyser, review2nd, review3nd, status, condition1Value, condition2Value, 
+    data1, data2, result, hold1, hold2, hold3
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from ph
+    from mfr
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from ph
+    delete from mfr
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="mycom.pojo.Ph" >
-    insert into ph (id, sampleId, analyser, 
-      review2nd, review3rd, status, 
-      data1, data2, formula, 
-      result, hold1, hold2, 
-      hold3)
+  <insert id="insert" parameterType="mycom.pojo.Mfr" >
+    insert into mfr (id, sampleId, analyser, 
+      review2nd, review3nd, status, 
+      condition1Value, condition2Value, data1, 
+      data2, result, hold1, 
+      hold2, hold3)
     values (#{id,jdbcType=INTEGER}, #{sampleid,jdbcType=INTEGER}, #{analyser,jdbcType=INTEGER}, 
-      #{review2nd,jdbcType=INTEGER}, #{review3rd,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
-      #{data1,jdbcType=VARCHAR}, #{data2,jdbcType=VARCHAR}, #{formula,jdbcType=VARCHAR}, 
-      #{result,jdbcType=VARCHAR}, #{hold1,jdbcType=VARCHAR}, #{hold2,jdbcType=VARCHAR}, 
-      #{hold3,jdbcType=VARCHAR})
+      #{review2nd,jdbcType=INTEGER}, #{review3nd,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{condition1value,jdbcType=VARCHAR}, #{condition2value,jdbcType=VARCHAR}, #{data1,jdbcType=VARCHAR}, 
+      #{data2,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, #{hold1,jdbcType=VARCHAR}, 
+      #{hold2,jdbcType=VARCHAR}, #{hold3,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="mycom.pojo.Ph" >
-    insert into ph
+  <insert id="insertSelective" parameterType="mycom.pojo.Mfr" >
+    insert into mfr
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -57,20 +58,23 @@
       <if test="review2nd != null" >
         review2nd,
       </if>
-      <if test="review3rd != null" >
-        review3rd,
+      <if test="review3nd != null" >
+        review3nd,
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="condition1value != null" >
+        condition1Value,
+      </if>
+      <if test="condition2value != null" >
+        condition2Value,
       </if>
       <if test="data1 != null" >
         data1,
       </if>
       <if test="data2 != null" >
         data2,
-      </if>
-      <if test="formula != null" >
-        formula,
       </if>
       <if test="result != null" >
         result,
@@ -98,20 +102,23 @@
       <if test="review2nd != null" >
         #{review2nd,jdbcType=INTEGER},
       </if>
-      <if test="review3rd != null" >
-        #{review3rd,jdbcType=INTEGER},
+      <if test="review3nd != null" >
+        #{review3nd,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="condition1value != null" >
+        #{condition1value,jdbcType=VARCHAR},
+      </if>
+      <if test="condition2value != null" >
+        #{condition2value,jdbcType=VARCHAR},
       </if>
       <if test="data1 != null" >
         #{data1,jdbcType=VARCHAR},
       </if>
       <if test="data2 != null" >
         #{data2,jdbcType=VARCHAR},
-      </if>
-      <if test="formula != null" >
-        #{formula,jdbcType=VARCHAR},
       </if>
       <if test="result != null" >
         #{result,jdbcType=VARCHAR},
@@ -127,8 +134,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="mycom.pojo.Ph" >
-    update ph
+  <update id="updateByPrimaryKeySelective" parameterType="mycom.pojo.Mfr" >
+    update mfr
     <set >
       <if test="sampleid != null" >
         sampleId = #{sampleid,jdbcType=INTEGER},
@@ -139,20 +146,23 @@
       <if test="review2nd != null" >
         review2nd = #{review2nd,jdbcType=INTEGER},
       </if>
-      <if test="review3rd != null" >
-        review3rd = #{review3rd,jdbcType=INTEGER},
+      <if test="review3nd != null" >
+        review3nd = #{review3nd,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="condition1value != null" >
+        condition1Value = #{condition1value,jdbcType=VARCHAR},
+      </if>
+      <if test="condition2value != null" >
+        condition2Value = #{condition2value,jdbcType=VARCHAR},
       </if>
       <if test="data1 != null" >
         data1 = #{data1,jdbcType=VARCHAR},
       </if>
       <if test="data2 != null" >
         data2 = #{data2,jdbcType=VARCHAR},
-      </if>
-      <if test="formula != null" >
-        formula = #{formula,jdbcType=VARCHAR},
       </if>
       <if test="result != null" >
         result = #{result,jdbcType=VARCHAR},
@@ -169,16 +179,17 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="mycom.pojo.Ph" >
-    update ph
+  <update id="updateByPrimaryKey" parameterType="mycom.pojo.Mfr" >
+    update mfr
     set sampleId = #{sampleid,jdbcType=INTEGER},
       analyser = #{analyser,jdbcType=INTEGER},
       review2nd = #{review2nd,jdbcType=INTEGER},
-      review3rd = #{review3rd,jdbcType=INTEGER},
+      review3nd = #{review3nd,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},
+      condition1Value = #{condition1value,jdbcType=VARCHAR},
+      condition2Value = #{condition2value,jdbcType=VARCHAR},
       data1 = #{data1,jdbcType=VARCHAR},
       data2 = #{data2,jdbcType=VARCHAR},
-      formula = #{formula,jdbcType=VARCHAR},
       result = #{result,jdbcType=VARCHAR},
       hold1 = #{hold1,jdbcType=VARCHAR},
       hold2 = #{hold2,jdbcType=VARCHAR},

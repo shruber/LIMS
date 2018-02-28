@@ -89,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	SAMPLE.panel = $("#sample");
 	
 	SAMPLE.departmentId = 1;
-	SAMPLE.selectedId = null;
+	
 	//加载
 	SAMPLE.load = function()
 	{
@@ -132,24 +132,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
 	
-	
-	 SAMPLE.clicked = function(dom)
+	SAMPLE.selectedId = null;
+	SAMPLE.clicked = function(dom)
 	{
 		//选中状态切换
 		$(dom).siblings().removeClass("item-selected");
   		$(dom).addClass("item-selected");
 		SAMPLE.selectedId = $(dom).attr('id1');
-	
-		toastr.success("click success"); 
-	
-	
 	}
 	
 	SAMPLE.addData = function()
 	{
 		//当点击录入数据按钮时，获得选中的样品id，查询其分析项目；
 		//此处有一个问题，怎么查该样品的分析项目，如果把所有分析项目的表都遍历一遍，那也太浪费时间和资源了，如果不遍历，又有什么办法呢？
-		//在样品基本信息中，应该有一个字段，存储其分析项目表名的列表；
+		//在样品基本信息中，应该有一个字段，存储其分析项目表名的列表，但是我在设计数据库的时候没有想到这一点，也没有预留字段（以后要记得预留字段）；
+		//现在我不想在原表中添加新的字段了，我重新建一个表，保存样品id和分析项目的映射关系；
+		//这么做的优点是不用更改已经写好的代码，缺点是数据库的完整性不行，虽然我也不知道数据库有没有完整性这个评价；
+		
+		if(SAMPLE.selectedId == null)
+		{
+			toastr.error("错误，未选择样品！请选择样品后重试！");
+			return;
+		}
+		
+		//从sampleAnalysisItems表中获取分析项目，然后在分析项目表中使用sampleId查找其记录，并返回
+		var data = {};
+  		data.sampleId = SAMPLE.selectedId;
+		var req = JSON.stringify(data);
+		  
+		var url = 'getAnalysisItemsBySampleId.do';
+		$.post(url, req, function (ans, status) {
+  		  	var resp = $.parseJSON(ans);
+  			if(resp.errorCode != 0){ toastr.error("错误：" + resp.reason); return;}
+					toastr.success("分析项目查询 success");							
+					//SAMPLE.show_item_list(resp.result);
+  			});
+	
+		
+		
+		
+		
+		toastr.success("success");
+		
+		
+		
+		
+		
 	
 	
 	}

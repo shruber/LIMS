@@ -3,7 +3,6 @@
 <mapper namespace="mycom.dao.PhMapper" >
   <resultMap id="BaseResultMap" type="mycom.pojo.Ph" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="sampleId" property="sampleid" jdbcType="INTEGER" />
     <result column="analyser" property="analyser" jdbcType="INTEGER" />
     <result column="review2nd" property="review2nd" jdbcType="INTEGER" />
@@ -13,10 +12,13 @@
     <result column="data2" property="data2" jdbcType="VARCHAR" />
     <result column="formula" property="formula" jdbcType="VARCHAR" />
     <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="hold1" property="hold1" jdbcType="VARCHAR" />
+    <result column="hold2" property="hold2" jdbcType="VARCHAR" />
+    <result column="hold3" property="hold3" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, sampleId, analyser, review2nd, review3rd, status, data1, data2, formula, 
-    result
+    id, sampleId, analyser, review2nd, review3rd, status, data1, data2, formula, result, 
+    hold1, hold2, hold3
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -29,23 +31,22 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="mycom.pojo.Ph" >
-    insert into ph (id, name, sampleId, 
-      analyser, review2nd, review3rd, 
-      status, data1, data2, 
-      formula, result)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sampleid,jdbcType=INTEGER}, 
-      #{analyser,jdbcType=INTEGER}, #{review2nd,jdbcType=INTEGER}, #{review3rd,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT}, #{data1,jdbcType=VARCHAR}, #{data2,jdbcType=VARCHAR}, 
-      #{formula,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR})
+    insert into ph (id, sampleId, analyser, 
+      review2nd, review3rd, status, 
+      data1, data2, formula, 
+      result, hold1, hold2, 
+      hold3)
+    values (#{id,jdbcType=INTEGER}, #{sampleid,jdbcType=INTEGER}, #{analyser,jdbcType=INTEGER}, 
+      #{review2nd,jdbcType=INTEGER}, #{review3rd,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{data1,jdbcType=VARCHAR}, #{data2,jdbcType=VARCHAR}, #{formula,jdbcType=VARCHAR}, 
+      #{result,jdbcType=VARCHAR}, #{hold1,jdbcType=VARCHAR}, #{hold2,jdbcType=VARCHAR}, 
+      #{hold3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="mycom.pojo.Ph" >
     insert into ph
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
-      </if>
-      <if test="name != null" >
-        name,
       </if>
       <if test="sampleid != null" >
         sampleId,
@@ -74,13 +75,19 @@
       <if test="result != null" >
         result,
       </if>
+      <if test="hold1 != null" >
+        hold1,
+      </if>
+      <if test="hold2 != null" >
+        hold2,
+      </if>
+      <if test="hold3 != null" >
+        hold3,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
       </if>
       <if test="sampleid != null" >
         #{sampleid,jdbcType=INTEGER},
@@ -109,14 +116,20 @@
       <if test="result != null" >
         #{result,jdbcType=VARCHAR},
       </if>
+      <if test="hold1 != null" >
+        #{hold1,jdbcType=VARCHAR},
+      </if>
+      <if test="hold2 != null" >
+        #{hold2,jdbcType=VARCHAR},
+      </if>
+      <if test="hold3 != null" >
+        #{hold3,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="mycom.pojo.Ph" >
     update ph
     <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
       <if test="sampleid != null" >
         sampleId = #{sampleid,jdbcType=INTEGER},
       </if>
@@ -144,13 +157,21 @@
       <if test="result != null" >
         result = #{result,jdbcType=VARCHAR},
       </if>
+      <if test="hold1 != null" >
+        hold1 = #{hold1,jdbcType=VARCHAR},
+      </if>
+      <if test="hold2 != null" >
+        hold2 = #{hold2,jdbcType=VARCHAR},
+      </if>
+      <if test="hold3 != null" >
+        hold3 = #{hold3,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="mycom.pojo.Ph" >
     update ph
-    set name = #{name,jdbcType=VARCHAR},
-      sampleId = #{sampleid,jdbcType=INTEGER},
+    set sampleId = #{sampleid,jdbcType=INTEGER},
       analyser = #{analyser,jdbcType=INTEGER},
       review2nd = #{review2nd,jdbcType=INTEGER},
       review3rd = #{review3rd,jdbcType=INTEGER},
@@ -158,7 +179,10 @@
       data1 = #{data1,jdbcType=VARCHAR},
       data2 = #{data2,jdbcType=VARCHAR},
       formula = #{formula,jdbcType=VARCHAR},
-      result = #{result,jdbcType=VARCHAR}
+      result = #{result,jdbcType=VARCHAR},
+      hold1 = #{hold1,jdbcType=VARCHAR},
+      hold2 = #{hold2,jdbcType=VARCHAR},
+      hold3 = #{hold3,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

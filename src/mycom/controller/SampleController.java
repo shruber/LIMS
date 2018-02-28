@@ -12,11 +12,15 @@ import java.util.Map;
 
 import mycom.dao.AnalysisItemsMapper;
 import mycom.dao.CommonMapper;
+import mycom.dao.DefineAnalysisItemsMapper;
 import mycom.dao.ProductMapper;
+import mycom.dao.SampleAnalysisItemsMapper;
 import mycom.dao.SampleMapper;
 import mycom.pojo.AnalysisItems;
+import mycom.pojo.DefineAnalysisItems;
 import mycom.pojo.Product;
 import mycom.pojo.Sample;
+import mycom.pojo.SampleAnalysisItems;
 
 import mycom.util.dbutil;
 
@@ -88,7 +92,7 @@ public class SampleController
 
 		JSONArray analysisItemsId = (JSONArray) req.get("analysisItemsId");
 		List idList = analysisItemsId.toList();
-		AnalysisItemsMapper obj = session.getMapper(AnalysisItemsMapper.class);
+		DefineAnalysisItemsMapper obj = session.getMapper(DefineAnalysisItemsMapper.class);
 		
 		//获得所需的分析项目的记录；
 		List analysisItemsList = obj.selectTableNameById(idList);
@@ -112,8 +116,8 @@ public class SampleController
 	    	samplingTime = Timestamp.valueOf((String) req.get("samplingTime")); 
 	        System.out.println(samplingTime);
 	    } catch (Exception e)
-	    {  
-	        e.printStackTrace();  
+	    {
+	        e.printStackTrace();
 	    }
 	    
 	    sampleObj.setSamplingtime(samplingTime);
@@ -122,26 +126,31 @@ public class SampleController
 		sample.insertSelective(sampleObj);
 		int sampleId = sampleObj.getId();
 		//System.out.println(SampleId );
-
+		
+		String tablesName = "";//表名的集合，保存在sampleAnalysisItems表中
 		//样品基本信息插入结束，下面写分析项目插入
 		for(int i = 0; i < analysisItemsList.size(); i++)
 		{
-			AnalysisItems analysisItem = (AnalysisItems) analysisItemsList.get(i);
+			DefineAnalysisItems analysisItem = (DefineAnalysisItems) analysisItemsList.get(i);
 			String tableName = analysisItem.getTablename();
-			
+			tablesName = tablesName+ "|" + tableName;
 			CommonMapper common = session.getMapper(CommonMapper.class);
 			
-			//在各个分析表中插入一条记录，只给表名和name(使用sample的值),sampleId属性；
+			//在各个分析表中插入一条记录，只给表名和name(使用tableName的值),sampleId属性；
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("tableName", "`" + tableName + "`");
 			map.put("sampleId", sampleId);
-			map.put("name", tableName);
 			common.insertSample(map);
 		}
 		
+		//将样品和分析项目的关系保存在sampleAnalysisItems表中；
+		SampleAnalysisItems sampleAnalysisItems = new SampleAnalysisItems();
+		sampleAnalysisItems.setSampleid(sampleId);
+		sampleAnalysisItems.setAnalysisitems(tablesName);
 		
+		SampleAnalysisItemsMapper sampleAnalysisItemsMapper = session.getMapper(SampleAnalysisItemsMapper.class);
 		
-		
+		sampleAnalysisItemsMapper.insertSelective(sampleAnalysisItems);
 		
 	    session.commit();
 	    session.close();

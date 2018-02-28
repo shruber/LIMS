@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mycom.dao.DefineAnalysisItemsMapper" >
+  <resultMap id="BaseResultMap" type="mycom.pojo.DefineAnalysisItems" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="tableName" property="tablename" jdbcType="VARCHAR" />
+    <result column="conditions" property="conditions" jdbcType="VARCHAR" />
+    <result column="conditionUnits" property="conditionunits" jdbcType="VARCHAR" />
+    <result column="dataNumber" property="datanumber" jdbcType="TINYINT" />
+    <result column="dataUnit" property="dataunit" jdbcType="VARCHAR" />
+    <result column="female" property="female" jdbcType="VARCHAR" />
+    <result column="creater" property="creater" jdbcType="INTEGER" />
+    <result column="hold1" property="hold1" jdbcType="VARCHAR" />
+    <result column="hold2" property="hold2" jdbcType="VARCHAR" />
+    <result column="hold3" property="hold3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, tableName, conditions, conditionUnits, dataNumber, dataUnit, female, creater, 
+    hold1, hold2, hold3
+  </sql>
+  
+  
+  <select id="selectTableNameById" resultMap="BaseResultMap" >
+    select * from defineAnalysisItems t
+    	<where>
+        	id in
+            <foreach collection="list" index="index" item="item" open="("  separator="," close=")" >
+                   #{item}
+            </foreach>
+        </where>
+  </select>
+  
+  
+  <select id="selectByIds" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from defineAnalysisItems
+             <where>
+                 id in
+                 <foreach collection="array" index="index" item="item" open="("  separator="," close=")" >
+                         #{item}
+                 </foreach>
+             </where>
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select * from defineAnalysisItems
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from defineAnalysisItems
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from defineAnalysisItems
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="mycom.pojo.DefineAnalysisItems" >
+    insert into defineAnalysisItems (id, name, tableName, 
+      conditions, conditionUnits, dataNumber, 
+      dataUnit, female, creater, 
+      hold1, hold2, hold3
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{tablename,jdbcType=VARCHAR}, 
+      #{conditions,jdbcType=VARCHAR}, #{conditionunits,jdbcType=VARCHAR}, #{datanumber,jdbcType=TINYINT}, 
+      #{dataunit,jdbcType=VARCHAR}, #{female,jdbcType=VARCHAR}, #{creater,jdbcType=INTEGER}, 
+      #{hold1,jdbcType=VARCHAR}, #{hold2,jdbcType=VARCHAR}, #{hold3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="mycom.pojo.DefineAnalysisItems" >
+    insert into defineAnalysisItems
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="tablename != null" >
+        tableName,
+      </if>
+      <if test="conditions != null" >
+        conditions,
+      </if>
+      <if test="conditionunits != null" >
+        conditionUnits,
+      </if>
+      <if test="datanumber != null" >
+        dataNumber,
+      </if>
+      <if test="dataunit != null" >
+        dataUnit,
+      </if>
+      <if test="female != null" >
+        female,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="hold1 != null" >
+        hold1,
+      </if>
+      <if test="hold2 != null" >
+        hold2,
+      </if>
+      <if test="hold3 != null" >
+        hold3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tablename != null" >
+        #{tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="conditions != null" >
+        #{conditions,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionunits != null" >
+        #{conditionunits,jdbcType=VARCHAR},
+      </if>
+      <if test="datanumber != null" >
+        #{datanumber,jdbcType=TINYINT},
+      </if>
+      <if test="dataunit != null" >
+        #{dataunit,jdbcType=VARCHAR},
+      </if>
+      <if test="female != null" >
+        #{female,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=INTEGER},
+      </if>
+      <if test="hold1 != null" >
+        #{hold1,jdbcType=VARCHAR},
+      </if>
+      <if test="hold2 != null" >
+        #{hold2,jdbcType=VARCHAR},
+      </if>
+      <if test="hold3 != null" >
+        #{hold3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="mycom.pojo.DefineAnalysisItems" >
+    update defineAnalysisItems
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tablename != null" >
+        tableName = #{tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="conditions != null" >
+        conditions = #{conditions,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionunits != null" >
+        conditionUnits = #{conditionunits,jdbcType=VARCHAR},
+      </if>
+      <if test="datanumber != null" >
+        dataNumber = #{datanumber,jdbcType=TINYINT},
+      </if>
+      <if test="dataunit != null" >
+        dataUnit = #{dataunit,jdbcType=VARCHAR},
+      </if>
+      <if test="female != null" >
+        female = #{female,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=INTEGER},
+      </if>
+      <if test="hold1 != null" >
+        hold1 = #{hold1,jdbcType=VARCHAR},
+      </if>
+      <if test="hold2 != null" >
+        hold2 = #{hold2,jdbcType=VARCHAR},
+      </if>
+      <if test="hold3 != null" >
+        hold3 = #{hold3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mycom.pojo.DefineAnalysisItems" >
+    update defineAnalysisItems
+    set name = #{name,jdbcType=VARCHAR},
+      tableName = #{tablename,jdbcType=VARCHAR},
+      conditions = #{conditions,jdbcType=VARCHAR},
+      conditionUnits = #{conditionunits,jdbcType=VARCHAR},
+      dataNumber = #{datanumber,jdbcType=TINYINT},
+      dataUnit = #{dataunit,jdbcType=VARCHAR},
+      female = #{female,jdbcType=VARCHAR},
+      creater = #{creater,jdbcType=INTEGER},
+      hold1 = #{hold1,jdbcType=VARCHAR},
+      hold2 = #{hold2,jdbcType=VARCHAR},
+      hold3 = #{hold3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -7,7 +7,9 @@
     insert into ${tableName} (sampleId) values (${sampleId})  
 </insert>
 
-
+ <select id="selectAnalysisItemsMap" resultType="java.util.Map" parameterType="java.util.Map" statementType="STATEMENT" >  
+	select * from ${tableName} where sampleId = ${sampleId}
+ </select>
 
 
 

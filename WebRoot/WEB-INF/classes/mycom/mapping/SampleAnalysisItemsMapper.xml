@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mycom.dao.SampleAnalysisItemsMapper" >
+  <resultMap id="BaseResultMap" type="mycom.pojo.SampleAnalysisItems" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sampleId" property="sampleid" jdbcType="INTEGER" />
+    <result column="analysisItems" property="analysisitems" jdbcType="VARCHAR" />
+    <result column="hold1" property="hold1" jdbcType="VARCHAR" />
+    <result column="hold2" property="hold2" jdbcType="VARCHAR" />
+    <result column="hold3" property="hold3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sampleId, analysisItems, hold1, hold2, hold3
+  </sql>
+  
+   <select id="selectTableNameBySampleId" resultType="java.lang.String" parameterType="java.lang.Integer" >
+    select 
+    analysisItems
+    from sampleAnalysisItems
+    where sampleId = #{sampleId,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sampleAnalysisItems
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sampleAnalysisItems
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="mycom.pojo.SampleAnalysisItems" >
+    insert into sampleAnalysisItems (id, sampleId, analysisItems, 
+      hold1, hold2, hold3
+      )
+    values (#{id,jdbcType=INTEGER}, #{sampleid,jdbcType=INTEGER}, #{analysisitems,jdbcType=VARCHAR}, 
+      #{hold1,jdbcType=VARCHAR}, #{hold2,jdbcType=VARCHAR}, #{hold3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="mycom.pojo.SampleAnalysisItems" >
+    insert into sampleAnalysisItems
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sampleid != null" >
+        sampleId,
+      </if>
+      <if test="analysisitems != null" >
+        analysisItems,
+      </if>
+      <if test="hold1 != null" >
+        hold1,
+      </if>
+      <if test="hold2 != null" >
+        hold2,
+      </if>
+      <if test="hold3 != null" >
+        hold3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sampleid != null" >
+        #{sampleid,jdbcType=INTEGER},
+      </if>
+      <if test="analysisitems != null" >
+        #{analysisitems,jdbcType=VARCHAR},
+      </if>
+      <if test="hold1 != null" >
+        #{hold1,jdbcType=VARCHAR},
+      </if>
+      <if test="hold2 != null" >
+        #{hold2,jdbcType=VARCHAR},
+      </if>
+      <if test="hold3 != null" >
+        #{hold3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="mycom.pojo.SampleAnalysisItems" >
+    update sampleAnalysisItems
+    <set >
+      <if test="sampleid != null" >
+        sampleId = #{sampleid,jdbcType=INTEGER},
+      </if>
+      <if test="analysisitems != null" >
+        analysisItems = #{analysisitems,jdbcType=VARCHAR},
+      </if>
+      <if test="hold1 != null" >
+        hold1 = #{hold1,jdbcType=VARCHAR},
+      </if>
+      <if test="hold2 != null" >
+        hold2 = #{hold2,jdbcType=VARCHAR},
+      </if>
+      <if test="hold3 != null" >
+        hold3 = #{hold3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mycom.pojo.SampleAnalysisItems" >
+    update sampleAnalysisItems
+    set sampleId = #{sampleid,jdbcType=INTEGER},
+      analysisItems = #{analysisitems,jdbcType=VARCHAR},
+      hold1 = #{hold1,jdbcType=VARCHAR},
+      hold2 = #{hold2,jdbcType=VARCHAR},
+      hold3 = #{hold3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

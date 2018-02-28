@@ -11,6 +11,7 @@ import java.util.Map;
 import mycom.dao.AnalysisItemsMapper;
 import mycom.dao.CommonMapper;
 import mycom.dao.ModelAnalysisItemsMapper;
+import mycom.dao.SampleAnalysisItemsMapper;
 import mycom.dao.SampleMapper;
 import mycom.pojo.AnalysisItems;
 import mycom.pojo.ModelAnalysisItems;
@@ -42,9 +43,24 @@ public class MybatisTest
         
         System.out.println("-------------------------");
        
-        
-        
-        
+		int sampleId = 25;
+		
+		SampleAnalysisItemsMapper obj = session.getMapper(SampleAnalysisItemsMapper.class);
+
+		String tableName = obj.selectTableNameBySampleId(sampleId);
+		
+		String[] tableNameArray = tableName.split("\\|");
+		System.out.println(tableNameArray[1]);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tableName", "`" + tableNameArray[1] + "`");
+		map.put("sampleId", sampleId);
+
+		CommonMapper analysisItems = session.getMapper(CommonMapper.class);
+		Map analysisItemsMap = analysisItems.selectAnalysisItemsMap(map);
+		System.out.println(analysisItemsMap.toString());
+		
+	    /* 
         
         int departmentId = 1;
         byte status = 0;
@@ -57,7 +73,7 @@ public class MybatisTest
         List<Sample> result = sample.selectSampleByDeparmentIdAndStatus(map);
         System.out.println(result.get(0).getName());
         
-       /* 
+   
         CommonMapper common = session.getMapper(CommonMapper.class);
 		
 		//在各个分析表中插入一条记录，只给表名和name(使用sample的值),sampleId属性；

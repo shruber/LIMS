@@ -18,6 +18,9 @@
     id, name, tableName, formula, creater
   </sql>
   
+
+  
+  
   <select id="selectTableNameById" resultMap="BaseResultMap" >
     select * from analysisItems t
     	<where>

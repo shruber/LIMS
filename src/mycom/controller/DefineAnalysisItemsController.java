@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import mycom.dao.AnalysisItemsMapper;
+import mycom.dao.DefineAnalysisItemsMapper;
 import mycom.pojo.AnalysisItems;
+import mycom.pojo.DefineAnalysisItems;
 import mycom.util.dbutil;
 
 
@@ -20,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class AnalysisItemsController
+public class DefineAnalysisItemsController
 {
-/*	
+	
 	@ResponseBody
 	@RequestMapping(value = "/getAnalysisItemsTableName", produces = "text/plain; charset=utf-8")
 	public String getAnalysisItemsTableName(@RequestBody String str)
@@ -39,7 +41,7 @@ public class AnalysisItemsController
 		
 		
 		SqlSession session = dbutil.getMybatisSqlSession();
-		AnalysisItemsMapper obj = session.getMapper(AnalysisItemsMapper.class);
+		DefineAnalysisItemsMapper obj = session.getMapper(DefineAnalysisItemsMapper.class);
 
 		List result = obj.selectTableNameById(idList);
 		
@@ -63,9 +65,9 @@ public class AnalysisItemsController
 		JSONObject resp = new JSONObject();
 
 		SqlSession session = dbutil.getMybatisSqlSession();
-		AnalysisItemsMapper obj = session.getMapper(AnalysisItemsMapper.class);
+		DefineAnalysisItemsMapper obj = session.getMapper(DefineAnalysisItemsMapper.class);
 
-		List<AnalysisItems> result = obj.selectAll();
+		List<DefineAnalysisItems> result = obj.selectAll();
 		
 		session.close();
 		resp.put("errorCode", errorCode);
@@ -94,7 +96,7 @@ public class AnalysisItemsController
 		}
 		//System.out.println(idsList);
 			
-	注释中也是org.json.JSONArray转化为int数组的方法，和上方代码效果相同
+/*	注释中也是org.json.JSONArray转化为int数组的方法，和上方代码效果相同
 		//org.json.JSONArray不能直接转化为数组，尝试先转string，再转array；
 		String str1 = req.get("analysisItemId").toString();
 		//正常情况下，JSONArray很少转化为数组，
@@ -108,12 +110,13 @@ public class AnalysisItemsController
 		for(int i=0; i < idsStrArray.length; i++)
 		{  
 			ids[i] = Integer.parseInt(idsStrArray[i]);  
-		} 
+		} */
 		
 		
 		SqlSession session = dbutil.getMybatisSqlSession();
-		AnalysisItemsMapper obj = session.getMapper(AnalysisItemsMapper.class);
-		List<AnalysisItems> result = obj.selectByIds(ids);
+		
+		DefineAnalysisItemsMapper obj = session.getMapper(DefineAnalysisItemsMapper.class);
+		List<DefineAnalysisItemsMapper> result = obj.selectByIds(ids);
 	
 		session.close();
 		resp.put("errorCode", errorCode);
@@ -125,7 +128,7 @@ public class AnalysisItemsController
 	public static int StrToInt(String str)
 	{
 		return Integer.parseInt(str);
-	}*/
+	}
 	
 	
 }

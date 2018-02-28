@@ -8,7 +8,6 @@ import mycom.pojo.Sample;
 
 public interface SampleMapper {
 
-	
     int deleteByPrimaryKey(Integer id);
 
     int insert(Sample record);

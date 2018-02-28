@@ -1,6 +1,6 @@
 package mycom.pojo;
 
-public class Ph {
+public class Mfr {
     private Integer id;
 
     private Integer sampleid;
@@ -9,15 +9,17 @@ public class Ph {
 
     private Integer review2nd;
 
-    private Integer review3rd;
+    private Integer review3nd;
 
     private Byte status;
+
+    private String condition1value;
+
+    private String condition2value;
 
     private String data1;
 
     private String data2;
-
-    private String formula;
 
     private String result;
 
@@ -59,12 +61,12 @@ public class Ph {
         this.review2nd = review2nd;
     }
 
-    public Integer getReview3rd() {
-        return review3rd;
+    public Integer getReview3nd() {
+        return review3nd;
     }
 
-    public void setReview3rd(Integer review3rd) {
-        this.review3rd = review3rd;
+    public void setReview3nd(Integer review3nd) {
+        this.review3nd = review3nd;
     }
 
     public Byte getStatus() {
@@ -73,6 +75,22 @@ public class Ph {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getCondition1value() {
+        return condition1value;
+    }
+
+    public void setCondition1value(String condition1value) {
+        this.condition1value = condition1value == null ? null : condition1value.trim();
+    }
+
+    public String getCondition2value() {
+        return condition2value;
+    }
+
+    public void setCondition2value(String condition2value) {
+        this.condition2value = condition2value == null ? null : condition2value.trim();
     }
 
     public String getData1() {
@@ -89,14 +107,6 @@ public class Ph {
 
     public void setData2(String data2) {
         this.data2 = data2 == null ? null : data2.trim();
-    }
-
-    public String getFormula() {
-        return formula;
-    }
-
-    public void setFormula(String formula) {
-        this.formula = formula == null ? null : formula.trim();
     }
 
     public String getResult() {
