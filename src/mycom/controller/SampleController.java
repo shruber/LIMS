@@ -6,10 +6,16 @@ import java.net.URLDecoder;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import mycom.dao.AnalysisItemsMapper;
+import mycom.dao.CommonMapper;
+import mycom.dao.ProductMapper;
 import mycom.dao.SampleMapper;
+import mycom.pojo.AnalysisItems;
+import mycom.pojo.Product;
 import mycom.pojo.Sample;
 
 import mycom.util.dbutil;
@@ -28,6 +34,43 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SampleController
 {
+	
+	@ResponseBody
+	@RequestMapping(value = "/getSampleByDeparmentIdAndStatus", produces = "text/plain; charset=utf-8")
+	public String getSampleByDeparmentIdAndStatus(@RequestBody String str)
+			throws Exception
+	{
+		int errorCode = 0;
+		String reason = "";
+
+		JSONObject req = new JSONObject(URLDecoder.decode(str, "UTF-8"));
+		JSONObject resp = new JSONObject();
+		
+		int departmentId = req.getInt("departmentId");
+		byte status = (byte) (((Integer) req.get("status")).intValue());	
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("departmentId", departmentId);
+		map.put("status", status);
+
+		
+	
+		SqlSession session = dbutil.getMybatisSqlSession();
+        SampleMapper sample = session.getMapper(SampleMapper.class);
+        
+        List<Sample> result = sample.selectSampleByDeparmentIdAndStatus(map);
+        System.out.println(result.get(0).getName());
+        
+        
+	    session.close();
+		resp.put("errorCode", errorCode);
+		resp.put("reason", reason);
+		resp.put("result", result);
+		return resp.toString();
+	}
+	
+	
+	
+	
 	
 	@ResponseBody
 	@RequestMapping(value = "/postSampleAndAnalysisItems", produces = "text/plain; charset=utf-8")
@@ -67,18 +110,38 @@ public class SampleController
 	    try 
 	    {
 	    	samplingTime = Timestamp.valueOf((String) req.get("samplingTime")); 
-	    	//creationTime = Timestamp.valueOf((String) req.get("creationTime"));
 	        System.out.println(samplingTime);
-	        System.out.println(creationTime);
 	    } catch (Exception e)
 	    {  
 	        e.printStackTrace();  
 	    }
+	    
 	    sampleObj.setSamplingtime(samplingTime);
 		sampleObj.setCreationtime(creationTime );
 
-		Object res = sample.insertSelective(sampleObj);
-		System.out.println(res);
+		sample.insertSelective(sampleObj);
+		int sampleId = sampleObj.getId();
+		//System.out.println(SampleId );
+
+		//样品基本信息插入结束，下面写分析项目插入
+		for(int i = 0; i < analysisItemsList.size(); i++)
+		{
+			AnalysisItems analysisItem = (AnalysisItems) analysisItemsList.get(i);
+			String tableName = analysisItem.getTablename();
+			
+			CommonMapper common = session.getMapper(CommonMapper.class);
+			
+			//在各个分析表中插入一条记录，只给表名和name(使用sample的值),sampleId属性；
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("tableName", "`" + tableName + "`");
+			map.put("sampleId", sampleId);
+			map.put("name", tableName);
+			common.insertSample(map);
+		}
+		
+		
+		
+		
 		
 	    session.commit();
 	    session.close();

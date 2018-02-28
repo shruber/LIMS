@@ -3,10 +3,13 @@ package mycom.test.mybatis.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 import mycom.dao.AnalysisItemsMapper;
+import mycom.dao.CommonMapper;
 import mycom.dao.ModelAnalysisItemsMapper;
 import mycom.dao.SampleMapper;
 import mycom.pojo.AnalysisItems;
@@ -36,12 +39,51 @@ public class MybatisTest
         //SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         //创建能执行映射文件中sql的sqlSession
         SqlSession session = sessionFactory.openSession();
+        
+        System.out.println("-------------------------");
+       
+        
+        
+        
+        
+        int departmentId = 1;
+        byte status = 0;
+        Map<String, Object> map = new HashMap<String, Object>();
+		map.put("departmentId", departmentId);
+		map.put("status", status);
+		
+        SampleMapper sample = session.getMapper(SampleMapper.class);
+        
+        List<Sample> result = sample.selectSampleByDeparmentIdAndStatus(map);
+        System.out.println(result.get(0).getName());
+        
+       /* 
+        CommonMapper common = session.getMapper(CommonMapper.class);
+		
+		//在各个分析表中插入一条记录，只给表名和name(使用sample的值),sampleId属性；
+        String tableName ="meltFlowRate";
+        int sampleId = 21;
+		
+        
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tableName", "`" + tableName + "`");
+		map.put("sampleId", sampleId);
+		int res = common.insertSample(map);*/
+        
+        
+        
+        
+        
+        
+        
+        
+        
         /**
          * 映射sql的标识字符串，
          * me.gacl.mapping.userMapper是userMapper.xml文件中mapper标签的namespace属性的值，
          * getUser是select标签的id属性值，通过select标签的id属性值就可以找到要执行的SQL
          */
-        String statement = "mycom.test.mybatis.mapping.limsTestMapper.getTest";//映射sql的标识字符串
+ /*       String statement = "mycom.test.mybatis.mapping.limsTestMapper.getTest";//映射sql的标识字符串
         LimsTest test = session.selectOne(statement, 1);
         System.out.println(test);
 
@@ -52,9 +94,21 @@ public class MybatisTest
   
         String statement3 = "mycom.dao.SampleMapper.selectAll";//映射sql的标识字符串
         List<Sample> result3 = session.selectList(statement3);
-        System.out.println(result3.get(0).getName());
+        System.out.println(result3.get(0).getName());*/
         
         System.out.println("-------------------------");
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 /*        //使用动态代理的方式，直接调用方法，无需映射sql的标识字符串
         SampleMapper sample = session.getMapper(SampleMapper.class);
         Sample oneSample = sample.selectByPrimaryKey(1);
@@ -78,7 +132,7 @@ public class MybatisTest
 		int[] ids = {1,2};
 		AnalysisItemsMapper obj3 = session.getMapper(AnalysisItemsMapper.class);
 		List<AnalysisItems> result5 = obj3.selectByIds(ids);
-		System.out.println(result5.get(0).getName());*/
+		System.out.println(result5.get(0).getName());
 		
         SampleMapper sample = session.getMapper(SampleMapper.class);
 		
@@ -102,7 +156,7 @@ public class MybatisTest
 		
         List<Sample> res2 = sample.selectAll();
         System.out.println(res2.get(2).getName());
-
+*/
        
         session.commit();
         session.close();

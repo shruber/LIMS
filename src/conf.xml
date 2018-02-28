@@ -28,7 +28,7 @@
     	<mapper resource="mycom/mapping/ProductMapper.xml"/>
         <mapper resource="mycom/mapping/SampleMapper.xml"/>
     	<mapper resource="mycom/mapping/StaffMapper.xml"/>
-    
+   	 	<mapper resource="mycom/mapping/CommonMapper.xml"/>
     	
     	
     	

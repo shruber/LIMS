@@ -2,6 +2,7 @@ package mycom.dao;
 
 
 import java.util.List;
+import java.util.Map;
 
 import mycom.pojo.Sample;
 
@@ -21,4 +22,7 @@ public interface SampleMapper {
     int updateByPrimaryKey(Sample record);
 
 	List<Sample> selectAll();
+
+
+	List<Sample> selectSampleByDeparmentIdAndStatus(Map<String, Object> map);
 }

@@ -234,7 +234,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			data.samplingTime = this.samplingTime;
 			data.creater = this.creater;
 
-			data.status = 1;
+			data.status = 0;
 			data.creationTime = new Date().getTime;
   			
 			var req = JSON.stringify(data);
@@ -324,11 +324,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
 	};
-
-
-
-
-
 
 
 ///////////////////analysisItems 分析项目////////////////

@@ -16,6 +16,10 @@
     id, name, departmentId, modelName, samplingTime, status, creater, creationTime
   </sql>
   
+  <select id="selectSampleByDeparmentIdAndStatus" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select * from sample
+    where departmentId = #{departmentId} and status = #{status}
+  </select>
   
   <select id="selectAll" resultMap="BaseResultMap" >
     select * from sample
@@ -41,6 +45,10 @@
       
   </insert>
   <insert id="insertSelective" parameterType="mycom.pojo.Sample" >
+  	<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+        SELECT LAST_INSERT_ID()
+    </selectKey>
+  
     insert into sample
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
