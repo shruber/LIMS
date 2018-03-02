@@ -20,6 +20,12 @@
     hold1, hold2, hold3
   </sql>
   
+  <select id="selectBytableName" resultType="java.util.Map" parameterType="java.util.Map">
+    select * from defineAnalysisItems where tableName = #{tableName}
+  </select>
+  
+  
+  
   
   <select id="selectTableNameById" resultMap="BaseResultMap" >
     select * from defineAnalysisItems t

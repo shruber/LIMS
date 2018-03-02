@@ -15,6 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -81,7 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		</div>
   	</div>
-
+	<jsp:include page="dlg_adddata.jsp"></jsp:include>
   </body>
 <script>
 ///////////////////sample 样品//////////////////////////
@@ -154,33 +155,204 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			toastr.error("错误，未选择样品！请选择样品后重试！");
 			return;
 		}
+
+		//从sampleAnalysisItems表中获取分析项目表名，然后在defineAnalysisItems表中查询其分析项目的左值，在分析项目分表中使用sampleId查找其记录的右值
+		//都返回map，由前端对左值、右值进行一一对应；
 		
-		//从sampleAnalysisItems表中获取分析项目，然后在分析项目表中使用sampleId查找其记录，并返回
 		var data = {};
   		data.sampleId = SAMPLE.selectedId;
 		var req = JSON.stringify(data);
-		  
+
 		var url = 'getAnalysisItemsBySampleId.do';
 		$.post(url, req, function (ans, status) {
   		  	var resp = $.parseJSON(ans);
   			if(resp.errorCode != 0){ toastr.error("错误：" + resp.reason); return;}
-					toastr.success("分析项目查询 success");							
+					toastr.success("分析项目查询 success");					
 					//SAMPLE.show_item_list(resp.result);
+					var result = resp.result;
+					var analysisItemsDetailMap = result.analysisItemsDetailMap;
+					var analysisItemsValueMap = result.analysisItemsValueMap;
+					SAMPLE.show_analysisItemsDetail_list(analysisItemsDetailMap, analysisItemsValueMap);
+					DLG_ADDDATA.show();
+	
   			});
-	
-		
-		
-		
-		
 		toastr.success("success");
-		
-		
-		
-		
-		
-	
-	
 	}
+	
+	SAMPLE.show_analysisItemsDetail_list = function(analysisItemsDetailMap, analysisItemsValueMap)
+	{
+		//这些信息显示在录入样品数据的弹出框中
+ 		var target = $("tbody", DLG_ADDDATA.dlg);
+  		target.html("");
+  		
+		for(var i in analysisItemsDetailMap)
+		{
+			var itemsStr = "";
+			console.log(i,":",analysisItemsDetailMap[i]);
+			console.log(i,":",analysisItemsValueMap[i]);
+			//取value时，先判断有没有该属性，再取，如果该属性没有赋值的话，该属性是取不出来的；
+			
+			var items = analysisItemsDetailMap[i];
+			var itemsValue = analysisItemsValueMap[i];
+			/*显示分为三列，条目，数值，单位；
+			对于不同的分析方法，显示的条目也不一样；每个条目，加一个判断；
+			显示的条目：方法名（name)，分析条件（conditions），分析条件单位（conditionUnits），数据（dataNumber），
+					数据单位（dataUnits），结果；
+			先检查有没有分析条件，然后再显示；数据单位也要检查有没有；数据也要检查有没有（有可能没有数据，只有一个结果）；
+			每个条目的显示，做成一个字符串，如果有则加上这个字符串，如果没有，就不加；
+			*/
+
+			//显示分析方法的名称；
+			{
+				var str = "<tr class='item' id1='##1' id2='##2' onclick='' >"
+						+ "<td>" +  items.name + "</td>"
+						+ "<td>" + "" + "</td>"
+						+ "<td>" + "" + "</td>"
+  						+ "</tr>";
+				str = str.replace(/##1/g, items.name).replace(/##2/g, items.name);
+				//console.log(str);
+				itemsStr = itemsStr + str;
+			}
+
+			//判断items中是否有conditions字段；默认是有conditions就有conditionUnits，定义方法的时候，即使没有单位，也要保存一个空字符串
+			console.log(items.conditions != undefined);
+			if(items.conditions != undefined)
+			{
+				//如果该条目有分析条件，那么，解析出该分析条件；
+				var conditions = items.conditions;
+				var conditionUnits = items.conditionUnits;
+				var conditionArray = conditions.split("#");
+				var conditionUnitArray = conditionUnits.split("#");
+				for(var j = 0;j < conditionArray.length; j++)
+				{
+					//解析出分析条件后，写出这一行的HTML；id1值为分析方法的name（items.name），id2为自身（condition + j）
+					var str = "<tr class='item' id1='##1' id2='##2' onclick='' >"
+						+ "<td>" + conditionArray[j] + "</td>"
+						+ "<td>" + "<input type='text' name='input' id='##3' value ='##4' />" + "</td>"
+						+ "<td>" + conditionUnitArray[j] + "</td>"
+  						+ "</tr>";
+					str = str.replace(/##1/g, items.name).replace(/##2/g, "condition" + j);
+					//##3需要用conditionValue替换掉；
+					var valueStr = "condition" + (j+1) + "Value";	//以后数据库任何编号从0开始；
+					str = str.replace(/##3/g, valueStr)
+					if(itemsValue[valueStr] != undefined)
+					{
+						str = str.replace(/##4/g, itemsValue[valueStr]);
+					}
+					
+					console.log(str);
+					itemsStr = itemsStr + str;
+				}
+			}
+			
+			//判断是否有data字段；
+			console.log(items.dataNumber > 0);
+			if(items.dataNumber > 0)
+			{
+				//如果数据个数大于0，那么有几个就显示几个；
+				var dataNumber = items.dataNumber;
+				for(var j = 0;j < dataNumber; j++)
+				{
+					var str = "<tr class='item' id1='##1' id2='##2' onclick='' >"
+						+ "<td>" + "数据" + (j+1) + "</td>"
+						+ "<td>" + "<input type='text' name='input' id='##3' value='##4' />" + "</td>"						
+						+ "<td>" + "##unit" + "</td>"
+  						+ "</tr>";
+					str = str.replace(/##1/g, items.name).replace(/##2/g, "data" + j);
+					if(items.dataUnit == undefined)
+					{
+						str = str.replace(/##unit/g, "");
+					}
+					else
+					{
+						str = str.replace(/##unit/g, items.dataUnit);
+					}
+					
+					//##3 ,默认值为dataValue；
+					var valueStr = "data" + (j+1);	//以后数据库任何编号从0开始；
+					str = str.replace(/##3/g, valueStr)
+					if(itemsValue[valueStr] != undefined)
+					{
+						str = str.replace(/##4/g, itemsValue[valueStr]);
+					}
+					else
+					{
+						str = str.replace(/##4/g, "");
+					}
+					
+					console.log(str);
+					itemsStr = itemsStr + str;
+				}
+			}
+			
+			//加上后续的一些显示，比如结果；加个大括号，是为了所谓的变量作用域，还有上下文看起来很规整；
+			{
+				var str = "<tr class='item' id1='##1' id2='result' onclick='' >"
+						+ "<td>" + "结果" + "</td>"
+						+ "<td>" + "<input type='text' name='input' id='##3' value='##4' />" + "</td>"
+						+ "<td>" + "##unit" + "</td>"
+  						+ "</tr>";
+				str = str.replace(/##1/g, items.name);
+				if(items.dataUnit == undefined)
+				{
+					str = str.replace(/##unit/g, "");
+				}
+				else
+				{
+					str = str.replace(/##unit/g, items.dataUnit);
+				}
+				//##3用一个input替代，初始值为resultValue，给data的input加一个change事件，如果数据发生改变（且data都有值），那么，result重新计算；
+				var valueStr = "result";
+				str = str.replace(/##3/g, valueStr)
+				if(itemsValue[valueStr] != undefined)
+				{
+						str = str.replace(/##4/g, itemsValue[valueStr]);
+				}
+				else
+				{
+					str = str.replace(/##4/g, "");
+				}
+					
+				console.log(str);
+				itemsStr = itemsStr + str;
+			}
+			console.log(itemsStr);
+			target.append(itemsStr);
+
+		}
+
+	};
+	
+	//没有用，如果后期没有用到就删除；
+	/* SAMPLE.show_ItemDetail_list = function(analysisItemDetailMap)
+	{
+
+		
+		Object.keys(analysisItemDetailMap).forEach(function(key)
+		{
+     		console.log(key,":",analysisItemDetailMap[key]);
+
+  		
+  		for(var i=0; i<items.length; i++)
+  		{
+  			var it = items[i];
+  			var str = "<tr class='item' id1='##1' onclick='SAMPLE.clicked(this)'>"
+  				+ "<td>" + it.id + "</td>"
+  				+ "<td>" + it.name + "</td>"
+  				+ "<td>" + it.creater + "</td>"
+  				+ "<td>" + it.samplingtime + "</td>"
+  				+ "</tr>";
+
+  			str = str.replace(/##1/g,it.id);
+  			target.append(str);
+  		}
+     		
+     		
+     		
+
+		});		
+	}; */
+	
 	
 	
 	//初始化

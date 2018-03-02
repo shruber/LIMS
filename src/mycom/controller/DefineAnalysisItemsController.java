@@ -2,11 +2,8 @@ package mycom.controller;
 
 import java.net.URLDecoder;
 import java.util.List;
-import java.util.Map;
 
-import mycom.dao.AnalysisItemsMapper;
 import mycom.dao.DefineAnalysisItemsMapper;
-import mycom.pojo.AnalysisItems;
 import mycom.pojo.DefineAnalysisItems;
 import mycom.util.dbutil;
 
@@ -95,24 +92,8 @@ public class DefineAnalysisItemsController
 			ids[i] = (Integer) idsList.get(i);  
 		}
 		//System.out.println(idsList);
-			
-/*	注释中也是org.json.JSONArray转化为int数组的方法，和上方代码效果相同
-		//org.json.JSONArray不能直接转化为数组，尝试先转string，再转array；
-		String str1 = req.get("analysisItemId").toString();
-		//正常情况下，JSONArray很少转化为数组，
-		//此处字符串比正常数组多出一对[],要先去除；
-		String str2 = str1.substring(1);
-		String idsStr = str2.substring(0,str2.length()-1);
-		
-		String[] idsStrArray = idsStr.split(",");
 
-		int[] ids = new int[idsStrArray.length];  
-		for(int i=0; i < idsStrArray.length; i++)
-		{  
-			ids[i] = Integer.parseInt(idsStrArray[i]);  
-		} */
-		
-		
+			
 		SqlSession session = dbutil.getMybatisSqlSession();
 		
 		DefineAnalysisItemsMapper obj = session.getMapper(DefineAnalysisItemsMapper.class);

@@ -1,6 +1,7 @@
 package mycom.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import mycom.pojo.DefineAnalysisItems;
 
@@ -22,4 +23,6 @@ public interface DefineAnalysisItemsMapper {
 	List<DefineAnalysisItems> selectAll();
 
 	List selectTableNameById(List idList);
+
+	Map selectBytableName(Map<String, Object> map);
 }

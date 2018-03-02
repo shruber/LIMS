@@ -19,10 +19,8 @@
          limsTestMapper.xml位于mycom.test.mybatis.mapping这个包下，所以resource写成mycom/test/mybatis/mapping/limsTestMapper.xml-->
     	<mapper resource="mycom/test/mybatis/mapping/limsTestMapper.xml"/>
     	
-    	<mapper resource="mycom/mapping/AnalysisItemsMapper.xml"/>
     	<mapper resource="mycom/mapping/DepartmentMapper.xml"/>
     	<mapper resource="mycom/mapping/DefineAnalysisItemsMapper.xml"/>
-    	<mapper resource="mycom/mapping/MeltFlowRateMapper.xml"/>
     	<mapper resource="mycom/mapping/MfrMapper.xml"/>
     	<mapper resource="mycom/mapping/ModelAnalysisItemsMapper.xml"/>
     	<mapper resource="mycom/mapping/ModelMapper.xml"/>

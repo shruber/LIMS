@@ -7,13 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import mycom.dao.AnalysisItemsMapper;
 import mycom.dao.CommonMapper;
+import mycom.dao.DefineAnalysisItemsMapper;
 import mycom.dao.ModelAnalysisItemsMapper;
 import mycom.dao.SampleAnalysisItemsMapper;
 import mycom.dao.SampleMapper;
-import mycom.pojo.AnalysisItems;
 import mycom.pojo.ModelAnalysisItems;
 import mycom.pojo.Sample;
 import mycom.test.mybatis.domain.LimsTest;
@@ -43,8 +41,31 @@ public class MybatisTest
         
         System.out.println("-------------------------");
        
-		int sampleId = 25;
+        
+        int sampleId = 28;
+        String tableName = "mfr";
+    	//使用分析项目分表的表名和sampleId，获取该分析项目数值，没有数值的，表示为null；交给前端显示；
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tableName", "`" + tableName + "`");
+		map.put("sampleId", sampleId);
+
+		CommonMapper analysisItems = session.getMapper(CommonMapper.class);
+		Map analysisItemsMap = analysisItems.selectAnalysisItemsMap(map);
+		//这个地方是从分析方法分表中获取到的analysisItemsMap是右值；
 		
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("tableName", tableName);
+		//现在获取左值；也就是使用tableName，从defineAnalysisItems表中分析项目的详细信息；
+		DefineAnalysisItemsMapper analysisItemDetail = session.getMapper(DefineAnalysisItemsMapper.class);
+		Map analysisItemDetailMap = analysisItemDetail.selectBytableName(map1);
+		System.out.println("sssss");
+        
+        
+        
+        
+	    /*
+		int sampleId = 25;
+	
 		SampleAnalysisItemsMapper obj = session.getMapper(SampleAnalysisItemsMapper.class);
 
 		String tableName = obj.selectTableNameBySampleId(sampleId);
@@ -60,7 +81,7 @@ public class MybatisTest
 		Map analysisItemsMap = analysisItems.selectAnalysisItemsMap(map);
 		System.out.println(analysisItemsMap.toString());
 		
-	    /* 
+ 
         
         int departmentId = 1;
         byte status = 0;

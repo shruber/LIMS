@@ -5,20 +5,18 @@ import java.net.URLDecoder;
 
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import mycom.dao.AnalysisItemsMapper;
 import mycom.dao.CommonMapper;
 import mycom.dao.DefineAnalysisItemsMapper;
-import mycom.dao.ProductMapper;
+
 import mycom.dao.SampleAnalysisItemsMapper;
 import mycom.dao.SampleMapper;
-import mycom.pojo.AnalysisItems;
+
 import mycom.pojo.DefineAnalysisItems;
-import mycom.pojo.Product;
+
 import mycom.pojo.Sample;
 import mycom.pojo.SampleAnalysisItems;
 
@@ -91,7 +89,7 @@ public class SampleController
 		SqlSession session = dbutil.getMybatisSqlSession();
 
 		JSONArray analysisItemsId = (JSONArray) req.get("analysisItemsId");
-		List idList = analysisItemsId.toList();
+		List<Object> idList = analysisItemsId.toList();
 		DefineAnalysisItemsMapper obj = session.getMapper(DefineAnalysisItemsMapper.class);
 		
 		//获得所需的分析项目的记录；
