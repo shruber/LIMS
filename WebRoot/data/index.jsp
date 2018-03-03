@@ -52,6 +52,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 		
+		.analysisItem
+		{
+			margin-top:5px;
+		}
+
+
+		
+		
 	</style>
 	
   </head>
@@ -99,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		data.departmentId =	 SAMPLE.departmentId;
   		data.status = 0;	//数据没有录入完成的，sample.satus = 0;
 		var req = JSON.stringify(data);
-				   
+		  
 		var url = 'getSampleByDeparmentIdAndStatus.do';
 		$.post(url, req, function (ans, status) {
   		  	var resp = $.parseJSON(ans);
@@ -142,6 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		SAMPLE.selectedId = $(dom).attr('id1');
 	}
 	
+	SAMPLE.femaleMap = {};
 	SAMPLE.addData = function()
 	{
 		//当点击录入数据按钮时，获得选中的样品id，查询其分析项目；
@@ -194,6 +203,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			var items = analysisItemsDetailMap[i];
 			var itemsValue = analysisItemsValueMap[i];
+			var itemName = items.name;
+			SAMPLE.femaleMap[itemName] = items.female;
 			/*显示分为三列，条目，数值，单位；
 			对于不同的分析方法，显示的条目也不一样；每个条目，加一个判断；
 			显示的条目：方法名（name)，分析条件（conditions），分析条件单位（conditionUnits），数据（dataNumber），
@@ -201,14 +212,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			先检查有没有分析条件，然后再显示；数据单位也要检查有没有；数据也要检查有没有（有可能没有数据，只有一个结果）；
 			每个条目的显示，做成一个字符串，如果有则加上这个字符串，如果没有，就不加；
 			*/
+			
+			//给每个分析项目加一个div，这样使用的时候也方便；
+			{
+				var str = "<div  class='itemDiv' id='##1' id1='##2'>";
+				str = str.replace(/##1/g, items.name).replace(/##2/g, items.tableName);
+				console.log(str);
+				itemsStr = itemsStr + str;
+			}
+
 
 			//显示分析方法的名称；
 			{
-				var str = "<tr class='item' id1='##1' id2='##2' onclick='' >"
+				var str = "<tr class='analysisItem' id1='##1' id2='##2' style='width: 100%;margin: 10px 0px;' >"
 						+ "<td>" +  items.name + "</td>"
 						+ "<td>" + "" + "</td>"
 						+ "<td>" + "" + "</td>"
-  						+ "</tr>";
+  						+ "</tr>"
+  						+ "<br>";
 				str = str.replace(/##1/g, items.name).replace(/##2/g, items.name);
 				//console.log(str);
 				itemsStr = itemsStr + str;
@@ -226,11 +247,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				for(var j = 0;j < conditionArray.length; j++)
 				{
 					//解析出分析条件后，写出这一行的HTML；id1值为分析方法的name（items.name），id2为自身（condition + j）
-					var str = "<tr class='item' id1='##1' id2='##2' onclick='' >"
+					var str = "<tr class='analysisItem' id1='##1' id2='##2' onclick='' >"
 						+ "<td>" + conditionArray[j] + "</td>"
-						+ "<td>" + "<input type='text' name='input' id='##3' value ='##4' />" + "</td>"
+						+ "<td>" + "<input type='text' class='condition' id='##3' value ='##4' style='margin: 10px;'/>" + "</td>"
 						+ "<td>" + conditionUnitArray[j] + "</td>"
-  						+ "</tr>";
+  						+ "</tr>"
+						+ "<br>";
 					str = str.replace(/##1/g, items.name).replace(/##2/g, "condition" + j);
 					//##3需要用conditionValue替换掉；
 					var valueStr = "condition" + (j+1) + "Value";	//以后数据库任何编号从0开始；
@@ -253,11 +275,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var dataNumber = items.dataNumber;
 				for(var j = 0;j < dataNumber; j++)
 				{
-					var str = "<tr class='item' id1='##1' id2='##2' onclick='' >"
+					var str = "<tr class='analysisItem' id1='##1' id2='##2' onclick='' >"
 						+ "<td>" + "数据" + (j+1) + "</td>"
-						+ "<td>" + "<input type='text' name='input' id='##3' value='##4' />" + "</td>"						
+						+ "<td>" + "<input type='text' class='data' name='input' id='##3' value='##4' " + 
+							"onchange='DLG_ADDDATA.valueOnChange(this)' style='margin: 10px;'/>" + "</td>"						
 						+ "<td>" + "##unit" + "</td>"
-  						+ "</tr>";
+  						+ "</tr>"
+  						+ "<br>";
 					str = str.replace(/##1/g, items.name).replace(/##2/g, "data" + j);
 					if(items.dataUnit == undefined)
 					{
@@ -285,13 +309,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			}
 			
-			//加上后续的一些显示，比如结果；加个大括号，是为了所谓的变量作用域，还有上下文看起来很规整；
+			//加上后续的一些显示，比如结果,div的后段；加个大括号，是为了所谓的变量作用域，还有上下文看起来很规整；
 			{
-				var str = "<tr class='item' id1='##1' id2='result' onclick='' >"
+				var str = "<tr class='analysisItem' id1='##1' id2='result' onclick='' >"
 						+ "<td>" + "结果" + "</td>"
-						+ "<td>" + "<input type='text' name='input' id='##3' value='##4' />" + "</td>"
+						+ "<td>" + "<input type='text' name='input' id='##3' value='##4' style='margin: 10px;'/>"
+							 + "</td>"
 						+ "<td>" + "##unit" + "</td>"
-  						+ "</tr>";
+  						+ "</tr>"
+  						+ "<br>";
 				str = str.replace(/##1/g, items.name);
 				if(items.dataUnit == undefined)
 				{
@@ -312,48 +338,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				{
 					str = str.replace(/##4/g, "");
 				}
-					
+						
 				console.log(str);
 				itemsStr = itemsStr + str;
 			}
+			
+			//div的后段
+			{
+				var str = "</div>";
+				itemsStr = itemsStr + str;
+			}
+			
+			
+			
 			console.log(itemsStr);
 			target.append(itemsStr);
 
 		}
 
 	};
-	
-	//没有用，如果后期没有用到就删除；
-	/* SAMPLE.show_ItemDetail_list = function(analysisItemDetailMap)
-	{
 
-		
-		Object.keys(analysisItemDetailMap).forEach(function(key)
-		{
-     		console.log(key,":",analysisItemDetailMap[key]);
-
-  		
-  		for(var i=0; i<items.length; i++)
-  		{
-  			var it = items[i];
-  			var str = "<tr class='item' id1='##1' onclick='SAMPLE.clicked(this)'>"
-  				+ "<td>" + it.id + "</td>"
-  				+ "<td>" + it.name + "</td>"
-  				+ "<td>" + it.creater + "</td>"
-  				+ "<td>" + it.samplingtime + "</td>"
-  				+ "</tr>";
-
-  			str = str.replace(/##1/g,it.id);
-  			target.append(str);
-  		}
-     		
-     		
-     		
-
-		});		
-	}; */
-	
-	
 	
 	//初始化
 	 SAMPLE.panel.ready(function()
