@@ -119,7 +119,7 @@
 				}
 				//此处result不需要检查其是否被恶意更改，保存的时候，取的是经公式计算的值，我还没搞清楚原因，以后重点看一下；
 				item.result = resultDom.attr("value");
-				item.analyser = "";
+				item.analyser = 0;
 				
 				//添加分析条件的取值；
 				for(k in conditionDomArray)

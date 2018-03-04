@@ -14,4 +14,6 @@ public interface MfrMapper {
     int updateByPrimaryKeySelective(Mfr record);
 
     int updateByPrimaryKey(Mfr record);
+
+	int updateBySampleIdSelective(Mfr record);
 }

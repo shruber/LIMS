@@ -9,9 +9,11 @@ import java.util.Map;
 
 import mycom.dao.CommonMapper;
 import mycom.dao.DefineAnalysisItemsMapper;
+import mycom.dao.MfrMapper;
 import mycom.dao.ModelAnalysisItemsMapper;
 import mycom.dao.SampleAnalysisItemsMapper;
 import mycom.dao.SampleMapper;
+import mycom.pojo.Mfr;
 import mycom.pojo.ModelAnalysisItems;
 import mycom.pojo.Sample;
 import mycom.test.mybatis.domain.LimsTest;
@@ -40,8 +42,37 @@ public class MybatisTest
         SqlSession session = sessionFactory.openSession();
         
         System.out.println("-------------------------");
-       
         
+        int sampleId = 34;
+        String tableName = "mfr";
+    	//使用分析项目分表的表名和sampleId，获取该分析项目数值，没有数值的，表示为null；交给前端显示；
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tableName", "`" + tableName + "`");
+		map.put("analyser", 11);
+		map.put("sampleId", sampleId);
+
+		CommonMapper analysisItems = session.getMapper(CommonMapper.class);
+		Object obj = analysisItems.updateCommon(map);
+		 System.out.println(obj);
+		
+        
+        
+		 
+	    /*
+        MfrMapper mfr = session.getMapper(MfrMapper.class);
+        
+        Mfr record = new Mfr();
+        int analyser = 32323;
+        int id = 2;
+        record.setAnalyser(analyser);
+        record.setId(id);
+        
+        mfr.updateByPrimaryKeySelective(record);
+        
+        mfr.updateByPrimaryKey(record);
+        
+        
+       
         int sampleId = 28;
         String tableName = "mfr";
     	//使用分析项目分表的表名和sampleId，获取该分析项目数值，没有数值的，表示为null；交给前端显示；
@@ -63,7 +94,7 @@ public class MybatisTest
         
         
         
-	    /*
+
 		int sampleId = 25;
 	
 		SampleAnalysisItemsMapper obj = session.getMapper(SampleAnalysisItemsMapper.class);

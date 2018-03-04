@@ -20,6 +20,42 @@
     id, sampleId, analyser, review2nd, review3rd, status, data1, data2, formula, result, 
     hold1, hold2, hold3
   </sql>
+  
+  <update id="updateBySampleIdSelective" parameterType="mycom.pojo.Ph" >
+    update ph
+    <set >
+      <if test="analyser != null" >
+        analyser = #{analyser,jdbcType=INTEGER},
+      </if>
+
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+
+      <if test="data1 != null" >
+        data1 = #{data1,jdbcType=VARCHAR},
+      </if>
+      <if test="data2 != null" >
+        data2 = #{data2,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="hold1 != null" >
+        hold1 = #{hold1,jdbcType=VARCHAR},
+      </if>
+      <if test="hold2 != null" >
+        hold2 = #{hold2,jdbcType=VARCHAR},
+      </if>
+      <if test="hold3 != null" >
+        hold3 = #{hold3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sampleId = #{sampleid,jdbcType=INTEGER}
+  </update>
+  
+  
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

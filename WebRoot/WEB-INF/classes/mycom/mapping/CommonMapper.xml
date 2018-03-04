@@ -10,7 +10,52 @@
  <select id="selectAnalysisItemsMap" resultType="java.util.Map" parameterType="java.util.Map" statementType="STATEMENT" >  
 	select * from ${tableName} where sampleId = ${sampleId}
  </select>
+ 
+ 
+   <update id="updateCommon" parameterType="java.util.Map" statementType="STATEMENT" >
+    update  ${tableName}
+    set analyser = #{analyser,jdbcType=INTEGER}
+    where sampleId = #{sampleId,jdbcType=INTEGER}
+  </update>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+   <update id="updateSampleAnalysisItems" parameterType="java.util.Map" statementType="STATEMENT" >
+    update  ${tableName}
+    <set >
 
-
-
+      <if test="condition1Value != null" >
+        condition1Value = #{condition1Value,jdbcType=VARCHAR},
+      </if>
+      <if test="condition2Value != null" >
+        condition2Value = #{condition2Value,jdbcType=VARCHAR},
+      </if>
+      <if test="data1 != null" >
+        data1 = #{data1,jdbcType=VARCHAR},
+      </if>
+      <if test="data2 != null" >
+        data2 = #{data2,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sampleId = #{sampleId,jdbcType=INTEGER}
+  </update>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 </mapper>

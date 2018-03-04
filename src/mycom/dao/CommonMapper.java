@@ -9,6 +9,10 @@ public interface CommonMapper {
 
 	Map selectAnalysisItemsMap(Map<String, Object> map);
 
+	Object updateSampleAnalysisItems(Map<String, Object> map);
+
+	Object updateCommon(Map<String, Object> map);
+
 
     
 	

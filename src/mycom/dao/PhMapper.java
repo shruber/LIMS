@@ -14,4 +14,7 @@ public interface PhMapper {
     int updateByPrimaryKeySelective(Ph record);
 
     int updateByPrimaryKey(Ph record);
+
+	int updateBySampleIdSelective(Ph record);
+
 }
